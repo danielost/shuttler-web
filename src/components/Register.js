@@ -1,5 +1,4 @@
-import React from "react"
-
+import React from 'react';
 import { Link } from 'react-router-dom'
 
 function App() {
@@ -7,11 +6,19 @@ function App() {
     <div className="Auth-form-container">
       <form className="Auth-form">
         <div className="Auth-form-content">
-          <h3 className="Auth-form-title">Sign In</h3>
+          <h3 className="Auth-form-title">Sign Up</h3>
+          <div className="form-group mt-3">
+            <label>First and last name</label>
+            <input
+              type="name"
+              className="form-control mt-1"
+              placeholder="Enter first and last name"
+            />
+          </div>
           <div className="form-group mt-3">
             <label>Username</label>
             <input
-              type="email"
+              type="username"
               className="form-control mt-1"
               placeholder="Enter username"
             />
@@ -30,12 +37,12 @@ function App() {
             </button>
           </div>
           <p className="forgot-password text-right mt-2">
-            Don't have an account? <Link to="/signup">Register here</Link>
+            Already have an account? <Link to="/signin">Sign in</Link>
           </p>
         </div>
       </form>
     </div>
-  )
+  );
 }
 
 export default App;

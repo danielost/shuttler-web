@@ -13,13 +13,14 @@ import Home from "./Home"
 import Pricing from "./Pricing"
 import Login from "./Login"
 import AllRoutes from "./AllRoutes"
+import Register from "./Register"
 
 export default class NavbarComp extends Component {
     render() { 
         return ( 
             <BrowserRouter>
                 <div>
-                    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+                    <Navbar collapseOnSelect bg="dark" expand="lg" variant="dark">
                         <Container>
                             <Navbar.Brand as={Link} to={"/"}>Shuttler</Navbar.Brand>
                             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -39,7 +40,8 @@ export default class NavbarComp extends Component {
                                 </NavDropdown>
                             </Nav>
                             <Nav>
-                                <Nav.Link as={Link} to={"/login"}>Login</Nav.Link>
+                                <Nav.Link as={Link} to={"/signup"}>Sign up</Nav.Link>
+                                <Nav.Link className='btn btn-primary' as={Link} to={"/signin"}>Sign in</Nav.Link>
                             </Nav>
                             </Navbar.Collapse>
                         </Container>
@@ -50,7 +52,8 @@ export default class NavbarComp extends Component {
                             <Route path="/" element={<Home/>} />
                             <Route path="/pricing" element={<Pricing/>} />
                             <Route path="/allRoutes" element={<AllRoutes/>} />
-                            <Route path="/login" element={<Login/>} />
+                            <Route path="/signin" element={<Login/>} />
+                            <Route path="/signup" element={<Register/>} />
                         </Routes>
                     </div>
                 </div>
