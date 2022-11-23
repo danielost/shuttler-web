@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from 'react-auth-kit';
+import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
@@ -16,7 +17,9 @@ root.render(
       cookieDomain={window.location.hostname}
       cookieSecure={false}
     >
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </AuthProvider>
   </React.StrictMode>
 );

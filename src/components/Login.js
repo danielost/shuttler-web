@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSignIn } from "react-auth-kit";
 import axios from "axios";
 import { Formik  } from "formik";
@@ -16,9 +16,10 @@ const schema = Yup.object().shape({
     .min(5, "Password must be at least 8 characters"),
 });
 
-function App() {
+function Login() {
   const [error, setError] = useState("");
   const signIn = useSignIn();
+  const navigate = useNavigate();
 
   const handleLoginSubmit = async (values) => {
     console.log("Values: ", values);
@@ -26,16 +27,19 @@ function App() {
 
     try {
       const response = await axios.post(
-        "https://localhost:8443/api/v1/login",
+        "https://localhost:8443/api/v1/auth/login",
         values
       );
 
       signIn({
         token: response.data.token,
-        expiresIn: 360000,
+        expiresIn: 60,
         tokenType: "Bearer",
         authState: { username: values.username },
       });
+      
+      navigate("/");
+      window.location.reload(false)
     } catch (err) {
         setError(err.message);
 
@@ -121,4 +125,4 @@ function App() {
   )
 }
 
-export default App;
+export default Login;
