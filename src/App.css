@@ -10,15 +10,10 @@
 }
 
 .route-container {
-  width: 60%;
+  width: 70%;
   display: flex;
   margin: 50px auto;
   flex-direction: column;
-}
-
-.route-unit {
-  margin: 15px;
-  width: 80%;
 }
 
 .Auth-form-container {
