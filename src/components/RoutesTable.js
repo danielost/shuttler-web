@@ -3,6 +3,7 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Accordion from "react-bootstrap/Accordion";
+import StopsTable from "./StopsTable";
 
 const RoutesTable = ({ routes, rType }) => {
   const [show, setShow] = useState(false);
@@ -56,7 +57,7 @@ const RoutesTable = ({ routes, rType }) => {
             <Accordion.Item eventKey="0">
               <Accordion.Header>Stops</Accordion.Header>
               <Accordion.Body>
-                {/* <RoutesTable routes={routes} rType={"bus"} /> */}
+                <StopsTable stops={activeRoute.stops} />
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
