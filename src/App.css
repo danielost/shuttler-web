@@ -9,6 +9,20 @@
   background-color:orange
 }
 
+.route-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px auto;
+  width: 60%;
+}
+
+.route-unit {
+  width: 400px;
+  margin: 10px;
+}
+
 .Auth-form-container {
   display: flex;
   justify-content: center;
