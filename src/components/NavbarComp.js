@@ -12,6 +12,7 @@ import Login from "./Login";
 import AllRoutes from "./AllRoutes";
 import Register from "./Register";
 import Profile from "./Profile";
+import Compile from "./CompileRoute";
 
 const NavbarComp = () => {
   const [name, setName] = useState("");
@@ -41,7 +42,7 @@ const NavbarComp = () => {
                 Pricing
               </Nav.Link>
               <NavDropdown title="Routes" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#bus">Compile</NavDropdown.Item>
+                <NavDropdown.Item href="/compile">Compile</NavDropdown.Item>
                 <NavDropdown.Item href="#trolleybus">
                   Favorites
                 </NavDropdown.Item>
@@ -114,6 +115,14 @@ const NavbarComp = () => {
             element={
               <RequireAuth loginPath="/signin">
                 <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/compile"
+            element={
+              <RequireAuth loginPath="/signin">
+                <Compile />
               </RequireAuth>
             }
           />
