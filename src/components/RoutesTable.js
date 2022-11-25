@@ -1,17 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Accordion from "react-bootstrap/Accordion";
 import StopsTable from "./StopsTable";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const RoutesTable = ({ routes, rType }) => {
   const [show, setShow] = useState(false);
   const [activeRoute, setActiveRoute] = useState({});
   const [vehicleType, setvehicleType] = useState("Type");
+  const [activeRouteSaved, setActiveRouteSaved] = useState(false);
+
+  const userId = JSON.parse(Cookies.get("_auth_state")).data.id;
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    axios({
+      url: "https://localhost:8443/api/v1/users/" + userId + "/savedRoutes",
+      method: "get",
+      headers: {
+        Authorization: "Bearer_" + Cookies.get("_auth"),
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        let foundRoute = response.data.find(route => route.id == activeRoute.id);
+        if (foundRoute != null && foundRoute != undefined) {
+          setActiveRouteSaved(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [activeRoute]);
 
   const openModalWithItem = (route) => {
     setActiveRoute(route);
@@ -51,8 +76,8 @@ const RoutesTable = ({ routes, rType }) => {
               return <>High congestion</>;
             })()}
           </span>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header>Stops</Accordion.Header>
@@ -63,9 +88,15 @@ const RoutesTable = ({ routes, rType }) => {
           </Accordion>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={() => {}}>
-            Save this route to your profile
-          </Button>
+          {activeRouteSaved ? (
+            <Button variant="primary" onClick={() => {}}>
+              Remove this route from your profile
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={() => {}}>
+              Save this route to your profile
+            </Button>
+          )}
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>

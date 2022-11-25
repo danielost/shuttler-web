@@ -13,6 +13,7 @@ import AllRoutes from "./AllRoutes";
 import Register from "./Register";
 import Profile from "./Profile";
 import Compile from "./CompileRoute";
+import SavedRoutes from "./SavedRoutes";
 
 const NavbarComp = () => {
   const [name, setName] = useState("");
@@ -21,7 +22,7 @@ const NavbarComp = () => {
   useEffect(() => {
     let userData = Cookies.get("_auth_state");
     if (userData != null) {
-      setName(JSON.parse(userData).username);
+      setName(JSON.parse(userData).data.username);
     }
   }, []);
 
@@ -43,7 +44,7 @@ const NavbarComp = () => {
               </Nav.Link>
               <NavDropdown title="Routes" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="/compile">Compile</NavDropdown.Item>
-                <NavDropdown.Item href="#trolleybus">
+                <NavDropdown.Item href="/favorites">
                   Favorites
                 </NavDropdown.Item>
 
@@ -107,6 +108,14 @@ const NavbarComp = () => {
             element={
               <RequireAuth loginPath="/signin">
                 <AllRoutes />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <RequireAuth loginPath="/signin">
+                <SavedRoutes />
               </RequireAuth>
             }
           />

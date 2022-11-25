@@ -35,7 +35,7 @@ function Login() {
         token: response.data.token,
         expiresIn: 60,
         tokenType: "Bearer",
-        authState: { username: values.username },
+        authState: { "data":response.data },
       });
 
       navigate("/");
