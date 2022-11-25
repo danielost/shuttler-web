@@ -27,21 +27,69 @@ const RoutesTable = ({ routes, rType }) => {
       },
     })
       .then((response) => {
-        console.log(response.data);
-        let foundRoute = response.data.find(route => route.id == activeRoute.id);
-        if (foundRoute != null && foundRoute != undefined) {
+        // console.log(response.data);
+        let foundRoute = response.data.find(
+          (route) => route.id === activeRoute.id
+        );
+        if (foundRoute !== undefined) {
           setActiveRouteSaved(true);
+        } else {
+          setActiveRouteSaved(false);
         }
+        // console.log(foundRoute);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [activeRoute]);
 
+  const handleRouteSave = () => {
+    axios({
+      url:
+        "https://localhost:8443/api/v1/users/" +
+        userId +
+        "/saveRoute?routeId=" +
+        activeRoute.id,
+      method: "put",
+      headers: {
+        Authorization: "Bearer_" + Cookies.get("_auth"),
+      },
+    })
+      .then((response) => {
+        setActiveRouteSaved(true);
+        handleClose();
+        // console.log("Route saved: " + response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleRouteDelete = () => {
+    axios({
+      url:
+        "https://localhost:8443/api/v1/users/" +
+        userId +
+        "/deleteRoute?routeId=" +
+        activeRoute.id,
+      method: "put",
+      headers: {
+        Authorization: "Bearer_" + Cookies.get("_auth"),
+      },
+    })
+      .then((response) => {
+        setActiveRouteSaved(false);
+        handleClose();
+        // console.log("Route deleted: " + response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const openModalWithItem = (route) => {
     setActiveRoute(route);
     setvehicleType(route.type);
-    console.log(activeRoute);
     handleShow();
   };
 
@@ -89,11 +137,21 @@ const RoutesTable = ({ routes, rType }) => {
         </Modal.Body>
         <Modal.Footer>
           {activeRouteSaved ? (
-            <Button variant="primary" onClick={() => {}}>
+            <Button
+              variant="primary"
+              onClick={() => {
+                handleRouteDelete();
+              }}
+            >
               Remove this route from your profile
             </Button>
           ) : (
-            <Button variant="primary" onClick={() => {}}>
+            <Button
+              variant="primary"
+              onClick={() => {
+                handleRouteSave();
+              }}
+            >
               Save this route to your profile
             </Button>
           )}
