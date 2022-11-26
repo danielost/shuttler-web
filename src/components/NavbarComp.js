@@ -14,6 +14,8 @@ import Register from "./Register";
 import Profile from "./Profile";
 import Compile from "./CompileRoute";
 import SavedRoutes from "./SavedRoutes";
+import OrganizerPanelRoutes from "./OrganizerPanelRoutes";
+import OrganizerPanelVehicles from "./OrganizerPanelVehicles";
 
 const NavbarComp = () => {
   const [name, setName] = useState("");
@@ -68,10 +70,10 @@ const NavbarComp = () => {
                         title="Organizer Panel"
                         id="collasible-nav-dropdown"
                       >
-                        <NavDropdown.Item as={Link} to={"/#"}>
+                        <NavDropdown.Item as={Link} to={"/manageRoutes"}>
                           Manage routes
                         </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={"/#"}>
+                        <NavDropdown.Item as={Link} to={"/manageVehicles"}>
                           Manage vehicles
                         </NavDropdown.Item>
                       </NavDropdown>
@@ -109,11 +111,7 @@ const NavbarComp = () => {
                 <>
                   <Nav.Link as={Link} to={"/profile"}>
                     Logged in as{" "}
-                    <span
-                      style={{ color: "#3B71CA" }}
-                    >
-                      {name}
-                    </span>
+                    <span style={{ color: "#3B71CA" }}>{name}</span>
                   </Nav.Link>
                   <Nav.Link
                     onClick={() => {
@@ -186,6 +184,22 @@ const NavbarComp = () => {
             element={
               <RequireAuth loginPath="/signin">
                 <Compile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/manageRoutes"
+            element={
+              <RequireAuth loginPath="/signin">
+                <OrganizerPanelRoutes />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/manageVehicles"
+            element={
+              <RequireAuth loginPath="/signin">
+                <OrganizerPanelVehicles />
               </RequireAuth>
             }
           />

@@ -15,7 +15,7 @@ const Pricing = () => {
             Get an ability to see routes' congestion and find optimal routes
             anytime
           </Card.Text>
-          <Button variant="primary">Get it now</Button>
+          <Button variant="primary">Buy now for $4.99</Button>
         </Card.Body>
       </Card>
       <Card style={{ width: "18rem"}}>
@@ -26,7 +26,7 @@ const Pricing = () => {
             Become an organizer: create routes, vehicles and attract more
             clients to your transport organization
           </Card.Text>
-          <Button variant="primary">Get it now</Button>
+          <Button variant="primary">Buy now for $24.99</Button>
         </Card.Body>
       </Card>
     </div>

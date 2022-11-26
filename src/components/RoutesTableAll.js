@@ -103,7 +103,7 @@ const RoutesTable = ({ routes }) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal dialogClassName="modal-width" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
             {vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1)}{" "}

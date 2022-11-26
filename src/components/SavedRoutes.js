@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Accordion from "react-bootstrap/Accordion";
-import RoutesTable from "./RoutesTable";
+import RoutesTableAll from "./RoutesTableAll";
 import { Link } from "react-router-dom";
 
 const SavedRoutes = () => {
@@ -32,26 +32,7 @@ const SavedRoutes = () => {
         {routes.length !== 0 ? (
           <>
             <h3 className="Auth-form-title">Favorite routes</h3>
-            <Accordion>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>Bus</Accordion.Header>
-                <Accordion.Body style={{padding: "0px"}}>
-                  <RoutesTable routes={routes} rType={"bus"} />
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="1">
-                <Accordion.Header>Trolleybus</Accordion.Header>
-                <Accordion.Body style={{padding: "0px"}}>
-                  <RoutesTable routes={routes} rType={"trolleybus"} />
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="2">
-                <Accordion.Header>Tram</Accordion.Header>
-                <Accordion.Body style={{padding: "0px"}}>
-                  <RoutesTable routes={routes} rType={"tram"} />
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
+            <RoutesTableAll routes={routes} />
           </>
         ) : (
           <label

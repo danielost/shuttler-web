@@ -63,6 +63,9 @@ function Compile() {
         .then((response) => {
           setRoutes(response.data);
           console.log(response.data);
+          if (response.data.length == 0) {
+            setError("No routes coursing through these stops, sorry.");
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -127,7 +130,7 @@ function Compile() {
                 {routes.length !== 0 ? (
                   <RoutesTableAll routes={routes} />
                 ) : (
-                  <label>No routes coursing through these stops, sorry.</label>
+                  <></>
                 )}
               </>
             ) : (
