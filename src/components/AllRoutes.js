@@ -30,7 +30,7 @@ const AllRoutes = () => {
       <div className="route-container-items">
         {routes != null ? (
           <>
-            <h3>All routes</h3>
+            <h3 className="Auth-form-title">All routes</h3>
             <Accordion>
               <Accordion.Item eventKey="0">
                 <Accordion.Header>Bus</Accordion.Header>

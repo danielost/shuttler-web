@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <div className="App">
-        <NavbarComp />
+        <NavbarComp style={{position:"fixed"}} />
         <Footer className="footer" />
       </div>
     </>

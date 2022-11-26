@@ -31,23 +31,23 @@ const SavedRoutes = () => {
       <div className="route-container-items">
         {routes.length !== 0 ? (
           <>
-            <h3>Favorite routes</h3>
+            <h3 className="Auth-form-title">Favorite routes</h3>
             <Accordion>
               <Accordion.Item eventKey="0">
                 <Accordion.Header>Bus</Accordion.Header>
-                <Accordion.Body>
+                <Accordion.Body style={{padding: "0px"}}>
                   <RoutesTable routes={routes} rType={"bus"} />
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey="1">
                 <Accordion.Header>Trolleybus</Accordion.Header>
-                <Accordion.Body>
+                <Accordion.Body style={{padding: "0px"}}>
                   <RoutesTable routes={routes} rType={"trolleybus"} />
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey="2">
                 <Accordion.Header>Tram</Accordion.Header>
-                <Accordion.Body>
+                <Accordion.Body style={{padding: "0px"}}>
                   <RoutesTable routes={routes} rType={"tram"} />
                 </Accordion.Body>
               </Accordion.Item>
