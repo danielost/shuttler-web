@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Accordion from "react-bootstrap/Accordion";
 import RoutesTable from "./RoutesTable";
+import { Link } from "react-router-dom";
 
 const SavedRoutes = () => {
   const [routes, setRoutes] = useState([]);
@@ -51,8 +52,7 @@ const SavedRoutes = () => {
           </Accordion>
         </div>
       ) : (
-        <label>No saved routes</label>
-        // <Spinner style={{ color: "white", margin: "50px" }} />
+        <label style={{fontSize:"20px", margin:"100px"}}>No saved routes, go see <Link to="/allRoutes">all routes</Link> and save some.</label>
       )}
     </>
   );

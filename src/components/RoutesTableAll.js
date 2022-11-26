@@ -7,7 +7,7 @@ import StopsTable from "./StopsTable";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const RoutesTable = ({ routes, rType }) => {
+const RoutesTable = ({ routes }) => {
   const [show, setShow] = useState(false);
   const [activeRoute, setActiveRoute] = useState({});
   const [vehicleType, setvehicleType] = useState("Type");
@@ -27,7 +27,6 @@ const RoutesTable = ({ routes, rType }) => {
       },
     })
       .then((response) => {
-        // console.log(response.data);
         let foundRoute = response.data.find(
           (route) => route.id === activeRoute.id
         );
@@ -36,7 +35,6 @@ const RoutesTable = ({ routes, rType }) => {
         } else {
           setActiveRouteSaved(false);
         }
-        // console.log(foundRoute);
       })
       .catch((err) => {
         console.log(err);
@@ -172,29 +170,26 @@ const RoutesTable = ({ routes, rType }) => {
         <tbody>
           <>
             {routes.map((currRoute) => {
-              if (currRoute.type === rType) {
-                return (
-                  <tr>
-                    <td style={{ verticalAlign: "middle" }}>
-                      {currRoute.number}
-                    </td>
-                    <td style={estimateCongestion(currRoute.congestion)}>
-                      {currRoute.congestion.toString().slice(0, 5)}%
-                    </td>
-                    <td style={{ verticalAlign: "middle" }}>
-                      <Button
-                        variant="primary"
-                        onClick={() => {
-                          openModalWithItem(currRoute);
-                        }}
-                      >
-                        More info
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              }
-              return <></>;
+              return (
+                <tr>
+                  <td style={{ verticalAlign: "middle" }}>
+                    {currRoute.number}
+                  </td>
+                  <td style={estimateCongestion(currRoute.congestion)}>
+                    {currRoute.congestion.toString().slice(0, 5)}%
+                  </td>
+                  <td style={{ verticalAlign: "middle" }}>
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        openModalWithItem(currRoute);
+                      }}
+                    >
+                      More info
+                    </Button>
+                  </td>
+                </tr>
+              );
             })}
           </>
         </tbody>

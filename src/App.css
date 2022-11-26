@@ -3,10 +3,15 @@
   pointer-events: none;
 }
 
+html, body {
+  height: 100%;
+}
+
 .App {
   text-align: center;
   background:linear-gradient(rgba(250,0,0,0.5),transparent);
   background-color:orange;
+  height: 100%;
 }
 
 .route-container {
@@ -14,6 +19,32 @@
   display: flex;
   margin: 50px auto;
   flex-direction: column;
+}
+
+.compile-form-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  width: 100%;
+  height: 80vh;
+}
+
+.compile-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 420px;
+  box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.compile-form-input {
+  width: 80%;
 }
 
 .Auth-form-container {
@@ -25,10 +56,6 @@
   height: 80vh;
 }
 
-.footer {
-  margin-top: auto;
-}
-
 .Auth-form {
   width: 420px;
   box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
@@ -36,6 +63,10 @@
   padding-bottom: 20px;
   border-radius: 8px;
   background-color: white;
+}
+
+.footer {
+  margin-top: auto;
 }
 
 .Auth-form-content {
