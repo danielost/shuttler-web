@@ -17,12 +17,14 @@ import SavedRoutes from "./SavedRoutes";
 
 const NavbarComp = () => {
   const [name, setName] = useState("");
+  const [roles, setRoles] = useState([]);
   const signOut = useSignOut();
 
   useEffect(() => {
     let userData = Cookies.get("_auth_state");
     if (userData != null) {
       setName(JSON.parse(userData).data.username);
+      setRoles(JSON.parse(userData).data.roles);
     }
   }, []);
 
@@ -40,11 +42,13 @@ const NavbarComp = () => {
                 Home
               </Nav.Link>
               <Nav.Link as={Link} to={"/pricing"}>
-                Pricing
+                Pricing 
               </Nav.Link>
               <NavDropdown title="Routes" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="/compile">Compile</NavDropdown.Item>
-                <NavDropdown.Item href="/favorites">
+                <NavDropdown.Item as={Link} to={"/compile"}>
+                  Compile
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to={"/favorites"}>
                   Favorites
                 </NavDropdown.Item>
 
@@ -53,13 +57,46 @@ const NavbarComp = () => {
                   See all
                 </NavDropdown.Item>
               </NavDropdown>
+              {Cookies.get("_auth") != null ? (
+                (() => {
+                  if (
+                    roles.find(
+                      (role) => role.name == "ROLE_ORGANIZER"
+                    ) !== undefined
+                  ) {
+                    return (
+                      <Nav.Link as={Link} to={"/pricing"}>
+                        Organizer Panel
+                      </Nav.Link>
+                    );
+                  }
+                  if (
+                    roles.find(
+                      (role) => role.name == "ROLE_ADMIN"
+                    ) !== undefined
+                  ) {
+                    return (
+                      <Nav.Link as={Link} to={"/pricing"}>
+                        Admin Panel
+                      </Nav.Link>
+                    );
+                  }
+                  return null;
+                })()
+              ) : (
+                <></>
+              )}
             </Nav>
             <Nav>
               {Cookies.get("_auth") != null ? (
                 <>
                   <Nav.Link as={Link} to={"/profile"}>
                     Logged in as{" "}
-                    <span style={{ color: "#3B71CA", textDecoration: "underline" }}>{name}</span>
+                    <span
+                      style={{ color: "#3B71CA", textDecoration: "underline" }}
+                    >
+                      {name}
+                    </span>
                   </Nav.Link>
                   <Nav.Link
                     onClick={() => {
