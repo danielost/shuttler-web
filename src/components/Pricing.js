@@ -3,8 +3,12 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import jam from "../imgs/jam.jpg"
 import org from "../imgs/organizer.jpg"
+import Cookies from "js-cookie";
 
 const Pricing = () => {
+  const userSubscriptions = JSON.parse(Cookies.get("_auth_state")).data
+    .subscriptions;
+
   return (
     <div className="pricing-container">
       <Card style={{ width: "18rem" }}>
@@ -15,7 +19,11 @@ const Pricing = () => {
             Get an ability to see routes' congestion and find optimal routes
             anytime
           </Card.Text>
-          <Button variant="primary">Buy now for $4.99</Button>
+          {userSubscriptions.length !== 0 ? (
+            <Button variant="secondary">Cancel subscription</Button>
+          ) : (
+            <Button variant="primary">Buy now for $4.99</Button>
+          )}
         </Card.Body>
       </Card>
       <Card style={{ width: "18rem"}}>

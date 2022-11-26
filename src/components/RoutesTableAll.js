@@ -13,6 +13,8 @@ const RoutesTable = ({ routes }) => {
   const [vehicleType, setvehicleType] = useState("Type");
   const [activeRouteSaved, setActiveRouteSaved] = useState(false);
 
+  const userSubscriptions = JSON.parse(Cookies.get("_auth_state")).data
+  .subscriptions;
   const userId = JSON.parse(Cookies.get("_auth_state")).data.id;
 
   const handleClose = () => setShow(false);
@@ -163,7 +165,7 @@ const RoutesTable = ({ routes }) => {
         <thead>
           <tr>
             <th>Number</th>
-            <th>Congestion</th>
+            {userSubscriptions.length !== 0 ? <th>Congestion</th> : <></>}
             <th>Details</th>
           </tr>
         </thead>
@@ -175,9 +177,13 @@ const RoutesTable = ({ routes }) => {
                   <td style={{ verticalAlign: "middle" }}>
                     {currRoute.number}
                   </td>
-                  <td style={estimateCongestion(currRoute.congestion)}>
-                    {currRoute.congestion.toString().slice(0, 5)}%
-                  </td>
+                  {userSubscriptions.length !== 0 ? (
+                      <td style={estimateCongestion(currRoute.congestion)}>
+                        {currRoute.congestion.toString().slice(0, 5)}%
+                      </td>
+                    ) : (
+                      <></>
+                    )}
                   <td style={{ verticalAlign: "middle" }}>
                     <Button
                       variant="primary"
