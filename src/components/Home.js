@@ -34,7 +34,7 @@ const Home = () => {
             {Cookies.get("_auth_state") == null ||
             (Cookies.get("_auth_state") !== null &&
               JSON.parse(Cookies.get("_auth_state")).data.subscriptions
-                .length == 0) ? (
+                .length === 0) ? (
               <Button as={Link} to="/pricing" variant="primary">
                 Subscribe now for only $4.99
               </Button>

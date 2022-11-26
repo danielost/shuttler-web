@@ -62,7 +62,7 @@ const NavbarComp = () => {
               {Cookies.get("_auth") != null ? (
                 (() => {
                   if (
-                    roles.find((role) => role.name == "ROLE_ORGANIZER") !==
+                    roles.find((role) => role.name === "ROLE_ORGANIZER") !==
                     undefined
                   ) {
                     return (
@@ -80,7 +80,7 @@ const NavbarComp = () => {
                     );
                   }
                   if (
-                    roles.find((role) => role.name == "ROLE_ADMIN") !==
+                    roles.find((role) => role.name === "ROLE_ADMIN") !==
                     undefined
                   ) {
                     return (

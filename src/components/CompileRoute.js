@@ -46,7 +46,7 @@ function Compile() {
     console.log("From: " + fromId);
     console.log("To: " + toId);
 
-    if (fromId == toId) {
+    if (fromId === toId) {
       setError("Stops can't be the same");
     } else {
       axios({
@@ -63,7 +63,7 @@ function Compile() {
         .then((response) => {
           setRoutes(response.data);
           console.log(response.data);
-          if (response.data.length == 0) {
+          if (response.data.length === 0) {
             setError("No routes coursing through these stops, sorry.");
           }
         })

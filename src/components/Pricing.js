@@ -19,7 +19,6 @@ const Pricing = () => {
 
   const handleCloseSub = () => setShowSub(false);
   const handleShowSub = () => setShowSub(true);
-  const handleCloseUnSub = () => setShowUnSub(false);
   const handleShowUnSub = () => setShowUnSub(true);
 
   const handleSubscriptionBuying = () => {
