@@ -7,7 +7,6 @@ const StopsTable = ({ stops }) => {
       <Table striped>
         <thead>
           <tr>
-            <th>ID</th>
             <th>Street</th>
             <th>Number</th>
           </tr>
@@ -17,7 +16,6 @@ const StopsTable = ({ stops }) => {
             {stops.map((currStop) => {
               return (
                 <tr>
-                  <td>{currStop.id}</td>
                   <td>{currStop.street}</td>
                   <td>{currStop.number}</td>
                 </tr>

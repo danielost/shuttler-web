@@ -110,7 +110,7 @@ const NavbarComp = () => {
                   <Nav.Link as={Link} to={"/profile"}>
                     Logged in as{" "}
                     <span
-                      style={{ color: "#3B71CA", textDecoration: "underline" }}
+                      style={{ color: "#3B71CA" }}
                     >
                       {name}
                     </span>

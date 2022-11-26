@@ -105,7 +105,7 @@ const RoutesTable = ({ routes, rType }) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal dialogClassName="modal-width" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
             {vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1)}{" "}
@@ -129,7 +129,7 @@ const RoutesTable = ({ routes, rType }) => {
           <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header>Stops</Accordion.Header>
-              <Accordion.Body>
+              <Accordion.Body style={{ padding: "0" }}>
                 <StopsTable stops={activeRoute.stops} />
               </Accordion.Body>
             </Accordion.Item>

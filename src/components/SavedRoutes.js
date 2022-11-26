@@ -27,34 +27,45 @@ const SavedRoutes = () => {
   }, []);
 
   return (
-    <>
-      {routes.length !== 0 ? (
-        <div className="route-container">
-          <Accordion>
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Bus</Accordion.Header>
-              <Accordion.Body>
-                <RoutesTable routes={routes} rType={"bus"} />
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="1">
-              <Accordion.Header>Trolleybus</Accordion.Header>
-              <Accordion.Body>
-                <RoutesTable routes={routes} rType={"trolleybus"} />
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="2">
-              <Accordion.Header>Tram</Accordion.Header>
-              <Accordion.Body>
-                <RoutesTable routes={routes} rType={"tram"} />
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-        </div>
-      ) : (
-        <label style={{fontSize:"20px", margin:"100px"}}>No saved routes, go see <Link to="/allRoutes">all routes</Link> and save some.</label>
-      )}
-    </>
+    <div className="route-container">
+      <div className="route-container-items">
+        {routes.length !== 0 ? (
+          <>
+            <h3>Favorite routes</h3>
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Bus</Accordion.Header>
+                <Accordion.Body>
+                  <RoutesTable routes={routes} rType={"bus"} />
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>Trolleybus</Accordion.Header>
+                <Accordion.Body>
+                  <RoutesTable routes={routes} rType={"trolleybus"} />
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="2">
+                <Accordion.Header>Tram</Accordion.Header>
+                <Accordion.Body>
+                  <RoutesTable routes={routes} rType={"tram"} />
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </>
+        ) : (
+          <label
+            style={{ fontSize: "20px", margin: "100px", textDecoration: "0" }}
+          >
+            No favorite routes, go to{" "}
+            <Link style={{ textDecoration: "none" }} to="/allRoutes">
+              all routes
+            </Link>{" "}
+            to save some.
+          </label>
+        )}
+      </div>
+    </div>
   );
 };
 

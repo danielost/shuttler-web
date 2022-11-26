@@ -127,7 +127,7 @@ const RoutesTable = ({ routes }) => {
           <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header>Stops</Accordion.Header>
-              <Accordion.Body>
+              <Accordion.Body style={{ padding: "0" }}>
                 <StopsTable stops={activeRoute.stops} />
               </Accordion.Body>
             </Accordion.Item>
