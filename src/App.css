@@ -14,10 +14,18 @@ html, body {
   height: 100%;
 }
 
+.pricing-container {
+  margin: 50px auto;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
 .route-container {
   width: 70%;
   display: flex;
-  margin: 50px auto;
+  margin: 100px auto;
   flex-direction: column;
 }
 

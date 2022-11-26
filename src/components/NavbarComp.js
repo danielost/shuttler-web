@@ -42,7 +42,7 @@ const NavbarComp = () => {
                 Home
               </Nav.Link>
               <Nav.Link as={Link} to={"/pricing"}>
-                Pricing 
+                Pricing
               </Nav.Link>
               <NavDropdown title="Routes" id="collasible-nav-dropdown">
                 <NavDropdown.Item as={Link} to={"/compile"}>
@@ -60,25 +60,42 @@ const NavbarComp = () => {
               {Cookies.get("_auth") != null ? (
                 (() => {
                   if (
-                    roles.find(
-                      (role) => role.name == "ROLE_ORGANIZER"
-                    ) !== undefined
+                    roles.find((role) => role.name == "ROLE_ORGANIZER") !==
+                    undefined
                   ) {
                     return (
-                      <Nav.Link as={Link} to={"/pricing"}>
-                        Organizer Panel
-                      </Nav.Link>
+                      <NavDropdown
+                        title="Organizer Panel"
+                        id="collasible-nav-dropdown"
+                      >
+                        <NavDropdown.Item as={Link} to={"/#"}>
+                          Manage routes
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={"/#"}>
+                          Manage vehicles
+                        </NavDropdown.Item>
+                      </NavDropdown>
                     );
                   }
                   if (
-                    roles.find(
-                      (role) => role.name == "ROLE_ADMIN"
-                    ) !== undefined
+                    roles.find((role) => role.name == "ROLE_ADMIN") !==
+                    undefined
                   ) {
                     return (
-                      <Nav.Link as={Link} to={"/pricing"}>
-                        Admin Panel
-                      </Nav.Link>
+                      <NavDropdown
+                        title="Admin Panel"
+                        id="collasible-nav-dropdown"
+                      >
+                        <NavDropdown.Item as={Link} to={"/#"}>
+                          Manage users
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={"/#"}>
+                          Manage stops
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={"/#"}>
+                          Manage database
+                        </NavDropdown.Item>
+                      </NavDropdown>
                     );
                   }
                   return null;
