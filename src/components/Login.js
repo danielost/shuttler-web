@@ -41,7 +41,7 @@ function Login() {
       navigate("/");
       window.location.reload(false);
     } catch (err) {
-      setError(err.message);
+      setError("Bad credentials");
 
       console.log("Error: ", err);
     }
