@@ -32,7 +32,7 @@ const EditProfile = () => {
       setMessage("Passwords don't match");
     } else {
       try {
-        const response = await axios.put(
+        await axios.put(
           "https://localhost:8443/api/v1/users/update/" + userId,
           values,
           {

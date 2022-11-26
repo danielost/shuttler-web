@@ -2,6 +2,7 @@ import "./App.css";
 import NavbarComp from "./components/NavbarComp";
 import React from "react";
 import Footer from "./components/Footer";
+import 'font-awesome/css/font-awesome.min.css';
 
 function App() {
   return (
