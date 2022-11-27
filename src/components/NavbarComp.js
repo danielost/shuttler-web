@@ -14,8 +14,8 @@ import Register from "./Register";
 import Profile from "./Profile";
 import Compile from "./CompileRoute";
 import SavedRoutes from "./SavedRoutes";
-import OrganizerPanelRoutes from "./OrganizerPanelRoutes";
-import OrganizerPanelVehicles from "./OrganizerPanelVehicles";
+import OrganizerPanelRoutes from "./controlPanels/OrganizerPanelRoutes";
+import OrganizerPanelVehicles from "./controlPanels/OrganizerPanelVehicles";
 
 const NavbarComp = () => {
   const [name, setName] = useState("");

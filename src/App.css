@@ -156,9 +156,10 @@ label {
 .organizer-header {
   display: flex;
   flex-direction: row;
-  background-color:rgb(34, 34, 34);
+  /* background-color:rgb(34, 34, 34); */
   padding: 10px;
+  margin: 0 14%;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   vertical-align: center;
 }

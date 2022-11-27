@@ -3,8 +3,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Table from "react-bootstrap/Table";
 import { Spinner } from "react-bootstrap";
-import EditableRow from "./tableRows/EditableRow";
-import ReadOnlyRow from "./tableRows/ReadOnlyRow";
+import EditableRow from "../tableRows/EditableRow";
+import ReadOnlyRow from "../tableRows/ReadOnlyRow";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -43,7 +43,6 @@ const OrganizerPanelRoutes = () => {
     newFormData[fieldName] = fieldValue;
 
     setEditFormData(newFormData);
-    console.log(editFormData);
   };
 
   const handleEditFormSubmit = (event) => {
@@ -55,45 +54,30 @@ const OrganizerPanelRoutes = () => {
       number: editFormData.number,
     };
 
-    if (allowedTypes.indexOf(editedRoute.type) === -1) {
+    console.log(routes);
+    console.log("Type: " + editedRoute.type);
+    console.log("Number: " + editedRoute.number);
+
+    const index = allowedTypes.indexOf(editedRoute.type);
+    if (index === -1) {
       setMessage(
         "Error: " +
           editedRoute.type +
-          " -bad type: allowed types are {" +
+          " - bad type: allowed types are {" +
           allowedTypes +
           "}"
       );
       handleShow();
-      setEditRouteId(null);
       return 0;
     }
-
-    let isNumberTaken = routes.find(
-      (route) => route.id !== editRouteId && route.number === editedRoute.number
-    );
-    if (isNumberTaken !== null) {
-      setMessage("Error: number " + editedRoute.number + " is taken");
-      handleShow();
-      setEditRouteId(null);
-      return 0;
-    }
-    const newRoutes = [...routes];
-
-    const index = routes.findIndex((route) => route.id === editRouteId);
-
-    newRoutes[index].type = editedRoute.type;
-    newRoutes[index].number = editedRoute.number;
-
-    setRoutes(newRoutes);
-    setEditRouteId(null);
 
     axios({
       url:
         "https://localhost:8443/api/v1/organizer/updateRoute/" + editedRoute.id,
       method: "put",
       data: {
-        type: editedRoute.type,
         number: editedRoute.number,
+        type: allowedTypes[index],
       },
       headers: {
         Authorization: "Bearer_" + Cookies.get("_auth"),
@@ -103,13 +87,44 @@ const OrganizerPanelRoutes = () => {
         setMessage("Route updated");
         handleShow();
         console.log(response.data);
+        const newRoutes = [...routes];
+
+        const index = routes.findIndex((route) => route.id === editRouteId);
+
+        newRoutes[index].type = editedRoute.type;
+        newRoutes[index].number = editedRoute.number;
+
+        setRoutes(newRoutes);
+        setEditRouteId(null);
       })
       .catch((err) => {
-        setMessage(err);
+        setMessage("Number is already taken");
         handleShow();
-        console.log(err);
       });
-    // }
+  };
+
+  const handleAddFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...addFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setAddFormData(newFormData);
+  };
+
+  const handleAddFormSubmit = (event) => {
+    event.preventDefault();
+
+    const newRoute = {
+      type: addFormData.type,
+      number: addFormData.number,
+    };
+
+    const newRoutes = [...routes, newRoute];
+    setRoutes(newRoutes);
   };
 
   const handleEditClick = (event, route) => {
@@ -131,8 +146,7 @@ const OrganizerPanelRoutes = () => {
 
   const handleDeleteClick = (routeId) => {
     axios({
-      url:
-        "https://localhost:8443/api/v1/organizer/deleteRoute/" + routeId,
+      url: "https://localhost:8443/api/v1/organizer/deleteRoute/" + routeId,
       method: "delete",
       headers: {
         Authorization: "Bearer_" + Cookies.get("_auth"),
@@ -207,8 +221,11 @@ const OrganizerPanelRoutes = () => {
         </div>
       </div>
       {routes !== null ? (
-        <form onSubmit={handleEditFormSubmit}>
-          <Table striped bordered hover variant="dark">
+        <form
+          onSubmit={handleEditFormSubmit}
+          style={{ margin: "0px 14% 150px 14%" }}
+        >
+          <Table striped bordered hover variant="light" size="sm">
             <thead>
               <tr>
                 <th>Id</th>
@@ -249,7 +266,7 @@ const OrganizerPanelRoutes = () => {
           </Table>
         </form>
       ) : (
-        <Spinner />
+        <Spinner style={{ color: "white" }} />
       )}
     </>
   );
