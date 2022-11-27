@@ -9,6 +9,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { BiAddToQueue } from "react-icons/bi";
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
 
 const OrganizerPanelRoutes = () => {
   const [routes, setRoutes] = useState(null);
@@ -20,6 +22,8 @@ const OrganizerPanelRoutes = () => {
   const handleShowAddForm = () => setShowAddForm(true);
   const allowedTypes = ["bus", "trolleybus", "tram"];
   const [stops, setStops] = useState(null);
+  const [showToast, setShowToast] = useState(true);
+  const toggleShowToast = () => setShowToast(!showToast);
 
   const [addFormData, setAddFormData] = useState({
     number: "",
@@ -148,11 +152,6 @@ const OrganizerPanelRoutes = () => {
             handleShow();
             console.log(responseSec.data);
 
-            // const newRoute = {
-            //   type: addFormData.type,
-            //   number: addFormData.number,
-            // };
-
             const newRoutes = [...routes, responseSec.data];
             setRoutes(newRoutes);
           })
@@ -214,6 +213,8 @@ const OrganizerPanelRoutes = () => {
   };
 
   useEffect(() => {
+    setShowToast(true);
+
     axios({
       url: "https://localhost:8443/api/v1/organizer/getRoutes/" + userId,
       method: "get",
@@ -250,6 +251,20 @@ const OrganizerPanelRoutes = () => {
 
   return (
     <>
+      <ToastContainer className="p-3" position="bottom-end">
+        <Toast onClose={()=>setShowToast(false)} show={showToast} delay={7000} autohide>
+          <Toast.Header>
+            <img
+              src="holder.js/20x20?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Shuttler</strong>
+            <small>Important!</small>
+          </Toast.Header>
+          <Toast.Body>Keep in mind, that changes to stops apply immediately</Toast.Body>
+        </Toast>
+      </ToastContainer>
       <Modal show={showAddForm} onHide={handleCloseAddForm}>
         <form onSubmit={handleAddFormSubmit}>
           <Modal.Header closeButton>
@@ -351,6 +366,7 @@ const OrganizerPanelRoutes = () => {
                   if (currRoute.id === editRouteId) {
                     return (
                       <EditableRowRoute
+                        route={currRoute}
                         stops={stops}
                         editFormData={editFormData}
                         handleEditFormChange={handleEditFormChange}

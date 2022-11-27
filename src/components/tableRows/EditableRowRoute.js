@@ -5,13 +5,70 @@ import { GrCheckmark } from "react-icons/gr";
 import { ImCancelCircle } from "react-icons/im";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const EditableRow = ({
+  route,
   stops,
   editFormData,
   handleEditFormChange,
   handleCancelClick,
 }) => {
+  const routesStops = route.stops;
+
+  function contains(arr, val) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].id === val) return true;
+    }
+    return false;
+  }
+
+  const handleStop = (stop, event) => {
+    if (event.target.checked) {
+      axios({
+        url:
+          "https://localhost:8443/api/v1/organizer/saveStop/" +
+          stop.id +
+          "/toRoute/" +
+          route.id,
+        method: "put",
+        headers: {
+          Authorization: "Bearer_" + Cookies.get("_auth"),
+        },
+      })
+        .then((response) => {
+          route.stops.push(stop);
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios({
+        url:
+          "https://localhost:8443/api/v1/organizer/removeStop/" +
+          stop.id +
+          "/fromRoute/" +
+          route.id,
+        method: "put",
+        headers: {
+          Authorization: "Bearer_" + Cookies.get("_auth"),
+        },
+      })
+        .then((response) => {
+          route.stops.splice(
+            route.stops.findIndex((currStop) => currStop.id == stop.id),
+            1
+          );
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   return (
     <tr>
       <td>{editFormData.id}</td>
@@ -55,12 +112,22 @@ const EditableRow = ({
                   <td>{stop.street}</td>
                   <td>{stop.number}</td>
                   <td>
-                    <Form.Check
-                      name="onsite"
-                      type="switch"
-                      id="custom-switch"
-                      // checked="false"
-                    />
+                    {contains(routesStops, stop.id) ? (
+                      <Form.Check
+                        name="onsite"
+                        type="switch"
+                        id="custom-switch"
+                        defaultChecked
+                        onChange={(e) => handleStop(stop, e)}
+                      />
+                    ) : (
+                      <Form.Check
+                        name="onsite"
+                        type="switch"
+                        id="custom-switch"
+                        onChange={(e) => handleStop(stop, e)}
+                      />
+                    )}
                   </td>
                 </tr>
               );
