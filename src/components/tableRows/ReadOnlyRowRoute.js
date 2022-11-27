@@ -1,8 +1,8 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import { MdDeleteOutline } from 'react-icons/md'
-import { AiFillEdit } from 'react-icons/ai'
+import { MdDeleteOutline } from "react-icons/md";
+import { AiFillEdit } from "react-icons/ai";
 
 const ReadOnlyRow = ({ route, handleEditClick, handleDeleteClick }) => {
   return (
@@ -10,7 +10,13 @@ const ReadOnlyRow = ({ route, handleEditClick, handleDeleteClick }) => {
       <td>{route.id}</td>
       <td>{route.type}</td>
       <td>{route.number}</td>
-      <td>{JSON.stringify(route.stops)}</td>
+      <td>
+        {
+          route.stops.map((stop) => {
+            return <span> {stop.street} {stop.number};</span>
+          })
+        }
+        </td>
       <td>
         <ButtonGroup aria-label="Basic example">
           <Button
@@ -24,7 +30,7 @@ const ReadOnlyRow = ({ route, handleEditClick, handleDeleteClick }) => {
             type="button"
             onClick={() => handleDeleteClick(route.id)}
             variant="secondary"
-            style={{backgroundColor:"red"}}
+            style={{ backgroundColor: "red" }}
           >
             <MdDeleteOutline />
           </Button>

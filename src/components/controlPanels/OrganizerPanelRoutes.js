@@ -3,8 +3,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Table from "react-bootstrap/Table";
 import { Spinner } from "react-bootstrap";
-import EditableRow from "../tableRows/EditableRow";
-import ReadOnlyRow from "../tableRows/ReadOnlyRow";
+import EditableRowRoute from "../tableRows/EditableRowRoute";
+import ReadOnlyRowRoute from "../tableRows/ReadOnlyRowRoute";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -13,9 +13,13 @@ import { BiAddToQueue } from "react-icons/bi";
 const OrganizerPanelRoutes = () => {
   const [routes, setRoutes] = useState(null);
   const [show, setShow] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseAddForm = () => setShowAddForm(false);
+  const handleShowAddForm = () => setShowAddForm(true);
   const allowedTypes = ["bus", "trolleybus", "tram"];
+  const [stops, setStops] = useState(null);
 
   const [addFormData, setAddFormData] = useState({
     number: "",
@@ -118,13 +122,51 @@ const OrganizerPanelRoutes = () => {
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
-    const newRoute = {
-      type: addFormData.type,
-      number: addFormData.number,
-    };
+    axios({
+      url: "https://localhost:8443/api/v1/organizer/createRoute/" + userId,
+      method: "post",
+      data: {
+        number: addFormData.number,
+        type: addFormData.type,
+      },
+      headers: {
+        Authorization: "Bearer_" + Cookies.get("_auth"),
+      },
+    })
+      .then((response) => {
+        axios({
+          url:
+            "https://localhost:8443/api/v1/routes/getByNumber?number=" +
+            addFormData.number,
+          method: "get",
+          headers: {
+            Authorization: "Bearer_" + Cookies.get("_auth"),
+          },
+        })
+          .then((responseSec) => {
+            setMessage("Route added");
+            handleShow();
+            console.log(responseSec.data);
 
-    const newRoutes = [...routes, newRoute];
-    setRoutes(newRoutes);
+            // const newRoute = {
+            //   type: addFormData.type,
+            //   number: addFormData.number,
+            // };
+
+            const newRoutes = [...routes, responseSec.data];
+            setRoutes(newRoutes);
+          })
+          .catch((err) => {
+            setMessage(err);
+            handleShow();
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        setMessage(err);
+        handleShow();
+        console.log(err);
+      });
   };
 
   const handleEditClick = (event, route) => {
@@ -186,10 +228,70 @@ const OrganizerPanelRoutes = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    axios({
+      url: "https://localhost:8443/api/v1/stops",
+      method: "get",
+      headers: {
+        Authorization: "Bearer_" + Cookies.get("_auth"),
+      },
+    })
+      .then((response) => {
+        setStops(response.data);
+        stops.sort(function(a, b) {
+          return a.street > b.street;
+        });
+        // console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
     <>
+      <Modal show={showAddForm} onHide={handleCloseAddForm}>
+        <form onSubmit={handleAddFormSubmit}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add a route</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <label style={{ margin: "5px" }}>Type:</label>
+            <Form.Control
+              as="select"
+              required="required"
+              placeholder="Enter the type"
+              name="type"
+              onChange={handleAddFormChange}
+            >
+              <option value="bus">bus</option>
+              <option value="trolleybus">trolleybus</option>
+              <option value="tram">tram</option>
+            </Form.Control>
+            <br />
+            <label style={{ margin: "5px" }}>Number:</label>
+            <Form.Control
+              type="number"
+              required="required"
+              placeholder="Enter the number"
+              name="number"
+              onChange={handleAddFormChange}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseAddForm}>
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={handleCloseAddForm}
+            >
+              Add
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Operation result</Modal.Title>
@@ -215,7 +317,11 @@ const OrganizerPanelRoutes = () => {
               console.log(currNumber);
             }}
           />
-          <Button>
+          <Button
+            onClick={() => {
+              handleShowAddForm();
+            }}
+          >
             Add <BiAddToQueue />
           </Button>
         </div>
@@ -225,7 +331,7 @@ const OrganizerPanelRoutes = () => {
           onSubmit={handleEditFormSubmit}
           style={{ margin: "0px 14% 150px 14%" }}
         >
-          <Table striped bordered hover variant="light" size="sm">
+          <Table striped bordered hover variant="light">
             <thead>
               <tr>
                 <th>Id</th>
@@ -244,7 +350,8 @@ const OrganizerPanelRoutes = () => {
                 ) {
                   if (currRoute.id === editRouteId) {
                     return (
-                      <EditableRow
+                      <EditableRowRoute
+                        stops={stops}
                         editFormData={editFormData}
                         handleEditFormChange={handleEditFormChange}
                         handleCancelClick={handleCancelClick}
@@ -252,7 +359,7 @@ const OrganizerPanelRoutes = () => {
                     );
                   } else {
                     return (
-                      <ReadOnlyRow
+                      <ReadOnlyRowRoute
                         route={currRoute}
                         handleEditClick={handleEditClick}
                         handleDeleteClick={handleDeleteClick}
