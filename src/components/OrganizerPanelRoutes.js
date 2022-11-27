@@ -130,6 +130,24 @@ const OrganizerPanelRoutes = () => {
   };
 
   const handleDeleteClick = (routeId) => {
+    axios({
+      url:
+        "https://localhost:8443/api/v1/organizer/deleteRoute/" + routeId,
+      method: "delete",
+      headers: {
+        Authorization: "Bearer_" + Cookies.get("_auth"),
+      },
+    })
+      .then((response) => {
+        setMessage("Route deleted");
+        handleShow();
+        console.log(response.data);
+      })
+      .catch((err) => {
+        setMessage(err);
+        handleShow();
+        console.log(err);
+      });
     const newRoutes = [...routes];
 
     const index = routes.findIndex((route) => route.id === routeId);
