@@ -8,6 +8,7 @@ import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 import { Spinner } from "react-bootstrap";
 import ReadOnlyRow from "../tableRows/ReadOnlyRowVehicle";
+import EditableRow from "../tableRows/EditableRowVehicle";
 
 const OrganizerPanelVehicles = () => {
   const [vehicles, setVehicles] = useState(null);
@@ -18,7 +19,6 @@ const OrganizerPanelVehicles = () => {
     route: "",
   });
   const [editFormData, setEditFormData] = useState({
-    vin: "",
     route: "",
   });
   const [showAddForm, setShowAddForm] = useState(false);
@@ -140,35 +140,75 @@ const OrganizerPanelVehicles = () => {
       },
     })
       .then((response) => {
-        // axios({
-        //   url:
-        //     "https://localhost:8443/api/v1/routes/getByNumber?number=" +
-        //     addFormData.number,
-        //   method: "get",
-        //   headers: {
-        //     Authorization: "Bearer_" + Cookies.get("_auth"),
-        //   },
-        // })
-        //   .then((responseSec) => {
-        //     setMessage("Route added");
-        //     handleShow();
-        //     console.log(responseSec.data);
-
-        //     const newRoutes = [...routes, responseSec.data];
-        //     setRoutes(newRoutes);
-        //   })
-        //   .catch((err) => {
-        //     setMessage(err);
-        //     handleShow();
-        //     console.log(err);
-        //   });
-        console.log("Adding...");
+        setShowAddForm(false);
         console.log(response.data);
       })
       .catch((err) => {
-        // setMessage(err);
-        // handleShow();
         console.log(err);
+      });
+  };
+
+  const handleEditFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...editFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setEditFormData(newFormData);
+  };
+
+  const handleEditFormSubmit = (event) => {
+    event.preventDefault();
+
+    const currentVehicle = vehicles.find(
+      (vehicle) => vehicle.vin == editVehicleId
+    );
+
+    const editedVehicle = {
+      route: routes.find(currRoute=>(editFormData.route==currRoute.number)).id,
+      maxCapacity: currentVehicle.maxCapacity,
+      currentCapacity: currentVehicle.currentCapacity,
+    };
+
+    // console.log("Data:");
+    // console.log("Route_id: " + editedVehicle.route);
+    // console.log("vin: " + editVehicleId);
+    // console.log("maxCapacity: " + editedVehicle.maxCapacity);
+    // console.log("currentCapacity: " + editedVehicle.currentCapacity);
+
+    axios({
+      url:
+        "https://localhost:8443/api/v1/organizer/updateVehicle?vin=" +
+        editVehicleId +
+        "&route_id=" +
+        editedVehicle.route,
+      method: "put",
+      data: {
+        vin: editVehicleId,
+        maxCapacity: editedVehicle.maxCapacity,
+        currentCapacity: editedVehicle.currentCapacity,
+      },
+      headers: {
+        Authorization: "Bearer_" + Cookies.get("_auth"),
+      },
+    })
+      .then((response) => {
+        
+        console.log(response.data);
+        const newVehicles = [...vehicles];
+
+        const index = vehicles.findIndex((vehicle) => vehicle.vin === editVehicleId);
+
+        newVehicles[index].route.number = editFormData.route;
+
+        setVehicles(newVehicles);
+        setEditVehicleId(null);
+      })
+      .catch((err) => {
+        console.log(err.data);
       });
   };
 
@@ -245,7 +285,7 @@ const OrganizerPanelVehicles = () => {
       </div>
       {vehicles !== null ? (
         <form
-          // onSubmit={handleEditFormSubmit}
+          onSubmit={handleEditFormSubmit}
           style={{ margin: "0px 14% 150px 14%" }}
         >
           <Table striped bordered hover variant="light">
@@ -260,13 +300,25 @@ const OrganizerPanelVehicles = () => {
             </thead>
             <tbody>
               {vehicles.map((vehicle) => {
-                return (
-                  <ReadOnlyRow
-                    vehicle={vehicle}
-                    handleEditClick={handleEditClick}
-                    handleDeleteClick={handleDeleteClick}
-                  />
-                );
+                if (vehicle.vin === editVehicleId) {
+                  return (
+                    <EditableRow
+                      routes={routes}
+                      vehicle={vehicle}
+                      editFormData={editFormData}
+                      handleEditFormChange={handleEditFormChange}
+                      // handleCancelClick={handleCancelClick}
+                    />
+                  );
+                } else {
+                  return (
+                    <ReadOnlyRow
+                      vehicle={vehicle}
+                      handleEditClick={handleEditClick}
+                      handleDeleteClick={handleDeleteClick}
+                    />
+                  );
+                }
               })}
             </tbody>
           </Table>
@@ -274,85 +326,6 @@ const OrganizerPanelVehicles = () => {
       ) : (
         <Spinner style={{ color: "white" }} />
       )}
-      {/* <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Operation result</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{message}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Got it
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <div className="organizer-header">
-        <h3 style={{ color: "white" }}>Your routes</h3>
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <Form.Control
-            type="search"
-            placeholder="Search by number"
-            className="me-2"
-            aria-label="Search"
-            style={{ width: "200px" }}
-            onChange={(e) => {
-              setCurrNumber(e.target.value);
-              console.log(currNumber);
-            }}
-          />
-          <Button>
-            Add <BiAddToQueue />
-          </Button>
-        </div>
-      </div>
-      {routes !== null ? (
-        <form
-          onSubmit={handleEditFormSubmit}
-          style={{ margin: "0px 14% 150px 14%" }}
-        >
-          <Table striped bordered hover variant="light">
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Type</th>
-                <th>Number</th>
-                <th>Stops</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {routes.map((currRoute) => {
-                if (
-                  (currRoute.number !== null &&
-                    currRoute.number.toString().indexOf(currNumber) !== -1) ||
-                  currNumber === ""
-                ) {
-                  if (currRoute.id === editRouteId) {
-                    return (
-                      <EditableRow
-                        stops={stops}
-                        editFormData={editFormData}
-                        handleEditFormChange={handleEditFormChange}
-                        handleCancelClick={handleCancelClick}
-                      />
-                    );
-                  } else {
-                    return (
-                      <ReadOnlyRow
-                        route={currRoute}
-                        handleEditClick={handleEditClick}
-                        handleDeleteClick={handleDeleteClick}
-                      />
-                    );
-                  }
-                }
-                return <></>;
-              })}
-            </tbody>
-          </Table>
-        </form>
-      ) : (
-        <Spinner style={{ color: "white" }} />
-      )} */}
     </>
   );
 };
