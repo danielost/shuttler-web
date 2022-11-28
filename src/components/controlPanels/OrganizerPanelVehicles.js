@@ -115,6 +115,10 @@ const OrganizerPanelVehicles = () => {
     setAddFormData(newFormData);
   };
 
+  const handleCancelClick = () => {
+    setEditVehicleId(null);
+  };
+
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
@@ -140,6 +144,17 @@ const OrganizerPanelVehicles = () => {
       },
     })
       .then((response) => {
+        const newVehicles = [...vehicles];
+
+        const newVehicle = {
+          vin: addFormData.vin,
+          route: {number: addFormData.route},
+          maxCapacity: addFormData.maxCapacity,
+          currentCapacity: "0",
+        }
+
+        setVehicles([...newVehicles, newVehicle]);
+        setEditVehicleId(null);
         setShowAddForm(false);
         console.log(response.data);
       })
@@ -307,7 +322,7 @@ const OrganizerPanelVehicles = () => {
                       vehicle={vehicle}
                       editFormData={editFormData}
                       handleEditFormChange={handleEditFormChange}
-                      // handleCancelClick={handleCancelClick}
+                      handleCancelClick={handleCancelClick}
                     />
                   );
                 } else {
