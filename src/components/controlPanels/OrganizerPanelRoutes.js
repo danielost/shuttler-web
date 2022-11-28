@@ -23,7 +23,6 @@ const OrganizerPanelRoutes = () => {
   const allowedTypes = ["bus", "trolleybus", "tram"];
   const [stops, setStops] = useState(null);
   const [showToast, setShowToast] = useState(true);
-  const toggleShowToast = () => setShowToast(!showToast);
 
   const [addFormData, setAddFormData] = useState({
     number: "",

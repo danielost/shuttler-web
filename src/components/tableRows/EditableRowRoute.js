@@ -58,7 +58,7 @@ const EditableRow = ({
       })
         .then((response) => {
           route.stops.splice(
-            route.stops.findIndex((currStop) => currStop.id == stop.id),
+            route.stops.findIndex((currStop) => currStop.id === stop.id),
             1
           );
           console.log(response.data);

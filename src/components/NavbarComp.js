@@ -16,6 +16,7 @@ import Compile from "./CompileRoute";
 import SavedRoutes from "./SavedRoutes";
 import OrganizerPanelRoutes from "./controlPanels/OrganizerPanelRoutes";
 import OrganizerPanelVehicles from "./controlPanels/OrganizerPanelVehicles";
+import NotFoundPage from "./NotFound";
 
 const NavbarComp = () => {
   const [name, setName] = useState("");
@@ -205,6 +206,7 @@ const NavbarComp = () => {
           />
           <Route path="/signin" element={<Login />} />
           <Route path="/signup" element={<Register />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </div>
