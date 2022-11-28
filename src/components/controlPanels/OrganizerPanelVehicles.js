@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 import { Spinner } from "react-bootstrap";
-import { MdDeleteOutline } from "react-icons/md";
+import ReadOnlyRow from "../tableRows/ReadOnlyRowVehicle";
 
 const OrganizerPanelVehicles = () => {
   const [vehicles, setVehicles] = useState(null);
@@ -17,10 +17,15 @@ const OrganizerPanelVehicles = () => {
     maxCapacity: "",
     route: "",
   });
+  const [editFormData, setEditFormData] = useState({
+    vin: "",
+    route: "",
+  });
   const [showAddForm, setShowAddForm] = useState(false);
   const userId = JSON.parse(Cookies.get("_auth_state")).data.id;
   const handleCloseAddForm = () => setShowAddForm(false);
   const handleShowAddForm = () => setShowAddForm(true);
+  const [editVehicleId, setEditVehicleId] = useState(null);
 
   useEffect(() => {
     axios({
@@ -54,6 +59,46 @@ const OrganizerPanelVehicles = () => {
       });
   }, []);
 
+  const handleEditClick = (event, vehicle) => {
+    event.preventDefault();
+    setEditVehicleId(vehicle.vin);
+
+    const formValues = {
+      vin: vehicle.vin,
+      route: vehicle.route,
+    };
+
+    setEditFormData(formValues);
+  };
+
+  const handleDeleteClick = (vehicleVin) => {
+    axios({
+      url:
+        "https://localhost:8443/api/v1/organizer/deleteVehicle/" + vehicleVin,
+      method: "delete",
+      headers: {
+        Authorization: "Bearer_" + Cookies.get("_auth"),
+      },
+    })
+      .then((response) => {
+        // setMessage("Vehicle deleted");
+        // handleShow();
+        console.log(response.data);
+      })
+      .catch((err) => {
+        // setMessage(err);
+        // handleShow();
+        console.log(err);
+      });
+    const newVehicles = [...vehicles];
+
+    const index = vehicles.findIndex((vehicle) => vehicle.vin === vehicleVin);
+
+    newVehicles.splice(index, 1);
+
+    setVehicles(newVehicles);
+  };
+
   const handleAddFormChange = (event) => {
     event.preventDefault();
 
@@ -75,7 +120,8 @@ const OrganizerPanelVehicles = () => {
 
     console.log(addFormData);
 
-    const routeId = routes.find(route=>route.number==addFormData.route).id;
+    const routeId = routes.find((route) => route.number == addFormData.route)
+      .id;
 
     axios({
       url:
@@ -215,22 +261,11 @@ const OrganizerPanelVehicles = () => {
             <tbody>
               {vehicles.map((vehicle) => {
                 return (
-                  <tr>
-                    <td>{vehicle.vin}</td>
-                    <td>{vehicle.route.number}</td>
-                    <td>{vehicle.maxCapacity}</td>
-                    <td>{vehicle.currentCapacity}</td>
-                    <td>
-                      <Button
-                        type="button"
-                        // onClick={() => handleDeleteClick(route.id)}
-                        variant="secondary"
-                        style={{ backgroundColor: "red" }}
-                      >
-                        <MdDeleteOutline />
-                      </Button>
-                    </td>
-                  </tr>
+                  <ReadOnlyRow
+                    vehicle={vehicle}
+                    handleEditClick={handleEditClick}
+                    handleDeleteClick={handleDeleteClick}
+                  />
                 );
               })}
             </tbody>
