@@ -17,6 +17,8 @@ import SavedRoutes from "./SavedRoutes";
 import OrganizerPanelRoutes from "./controlPanels/OrganizerPanelRoutes";
 import OrganizerPanelVehicles from "./controlPanels/OrganizerPanelVehicles";
 import NotFoundPage from "./NotFound";
+import PanelUsers from "./controlPanels/AdminPanelUsers";
+import PanelStops from "./controlPanels/AdminPanelStops";
 
 const NavbarComp = () => {
   const [name, setName] = useState("");
@@ -60,49 +62,36 @@ const NavbarComp = () => {
                   See all
                 </NavDropdown.Item>
               </NavDropdown>
-              {Cookies.get("_auth") != null ? (
-                (() => {
-                  if (
-                    roles.find((role) => role.name === "ROLE_ORGANIZER") !==
-                    undefined
-                  ) {
-                    return (
-                      <NavDropdown
-                        title="Organizer Panel"
-                        id="collasible-nav-dropdown"
-                      >
-                        <NavDropdown.Item as={Link} to={"/manageRoutes"}>
-                          Manage routes
-                        </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={"/manageVehicles"}>
-                          Manage vehicles
-                        </NavDropdown.Item>
-                      </NavDropdown>
-                    );
-                  }
-                  if (
-                    roles.find((role) => role.name === "ROLE_ADMIN") !==
-                    undefined
-                  ) {
-                    return (
-                      <NavDropdown
-                        title="Admin Panel"
-                        id="collasible-nav-dropdown"
-                      >
-                        <NavDropdown.Item as={Link} to={"/#"}>
-                          Manage users
-                        </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={"/#"}>
-                          Manage stops
-                        </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={"/#"}>
-                          Manage database
-                        </NavDropdown.Item>
-                      </NavDropdown>
-                    );
-                  }
-                  return null;
-                })()
+              {Cookies.get("_auth") != null &&
+              roles.find((role) => role.name === "ROLE_ORGANIZER") !==
+                undefined ? (
+                <NavDropdown
+                  title="Organizer Panel"
+                  id="collasible-nav-dropdown"
+                >
+                  <NavDropdown.Item as={Link} to={"/manageRoutes"}>
+                    Manage routes
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to={"/manageVehicles"}>
+                    Manage vehicles
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <></>
+              )}
+              {Cookies.get("_auth") != null &&
+              roles.find((role) => role.name === "ROLE_ADMIN") !== undefined ? (
+                <NavDropdown title="Admin Panel" id="collasible-nav-dropdown">
+                  <NavDropdown.Item as={Link} to={"/manageUsers"}>
+                    Manage users
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to={"/manageStops"}>
+                    Manage stops
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to={"/#"}>
+                    Manage database
+                  </NavDropdown.Item>
+                </NavDropdown>
               ) : (
                 <></>
               )}
@@ -193,6 +182,22 @@ const NavbarComp = () => {
             element={
               <RequireAuth loginPath="/signin">
                 <OrganizerPanelRoutes />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/manageUsers"
+            element={
+              <RequireAuth loginPath="/signin">
+                <PanelUsers />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/manageStops"
+            element={
+              <RequireAuth loginPath="/signin">
+                <PanelStops />
               </RequireAuth>
             }
           />

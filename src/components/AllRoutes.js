@@ -18,7 +18,7 @@ const AllRoutes = () => {
     })
       .then((response) => {
         setRoutes(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((err) => {
         console.log(err);

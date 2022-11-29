@@ -124,7 +124,7 @@ const OrganizerPanelVehicles = () => {
 
     console.log(addFormData);
 
-    const routeId = routes.find((route) => route.number == addFormData.route)
+    const routeId = routes.find((route) => route.number === addFormData.route)
       .id;
 
     axios({
@@ -148,10 +148,10 @@ const OrganizerPanelVehicles = () => {
 
         const newVehicle = {
           vin: addFormData.vin,
-          route: {number: addFormData.route},
+          route: { number: addFormData.route },
           maxCapacity: addFormData.maxCapacity,
           currentCapacity: "0",
-        }
+        };
 
         setVehicles([...newVehicles, newVehicle]);
         setEditVehicleId(null);
@@ -179,11 +179,12 @@ const OrganizerPanelVehicles = () => {
     event.preventDefault();
 
     const currentVehicle = vehicles.find(
-      (vehicle) => vehicle.vin == editVehicleId
+      (vehicle) => vehicle.vin === editVehicleId
     );
 
     const editedVehicle = {
-      route: routes.find(currRoute=>(editFormData.route==currRoute.number)).id,
+      route: routes.find((currRoute) => editFormData.route === currRoute.number)
+        .id,
       maxCapacity: currentVehicle.maxCapacity,
       currentCapacity: currentVehicle.currentCapacity,
     };
@@ -211,11 +212,12 @@ const OrganizerPanelVehicles = () => {
       },
     })
       .then((response) => {
-        
         console.log(response.data);
         const newVehicles = [...vehicles];
 
-        const index = vehicles.findIndex((vehicle) => vehicle.vin === editVehicleId);
+        const index = vehicles.findIndex(
+          (vehicle) => vehicle.vin === editVehicleId
+        );
 
         newVehicles[index].route.number = editFormData.route;
 

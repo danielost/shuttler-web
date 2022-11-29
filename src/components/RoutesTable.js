@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -106,7 +106,7 @@ const RoutesTable = ({ routes, rType }) => {
   };
 
   return (
-    <>
+    <Fragment>
       <Modal dialogClassName="modal-width" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -176,7 +176,7 @@ const RoutesTable = ({ routes, rType }) => {
             {routes.map((currRoute) => {
               if (currRoute.type === rType) {
                 return (
-                  <tr>
+                  <tr key={currRoute.id}>
                     <td style={{ verticalAlign: "middle" }}>
                       {currRoute.number}
                     </td>
@@ -205,7 +205,7 @@ const RoutesTable = ({ routes, rType }) => {
           </>
         </tbody>
       </Table>
-    </>
+    </Fragment>
   );
 };
 

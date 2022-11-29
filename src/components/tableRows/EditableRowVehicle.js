@@ -4,9 +4,6 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { GrCheckmark } from "react-icons/gr";
 import { ImCancelCircle } from "react-icons/im";
 import Form from "react-bootstrap/Form";
-import Table from "react-bootstrap/Table";
-import axios from "axios";
-import Cookies from "js-cookie";
 
 const EditableRow = ({
   vehicle,

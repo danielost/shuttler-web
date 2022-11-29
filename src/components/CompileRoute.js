@@ -74,11 +74,11 @@ function Compile() {
   };
 
   return (
-    <>
-      {stops != null && stops.length > 2 ? (
-        <div className="compile-form-container">
-          <form className="compile-form" style={{ alignItems: "center" }}>
-            <h3 className="Auth-form-title">Compile routes</h3>
+    <div className="compile-form-container">
+      <form className="compile-form" style={{ alignItems: "center" }}>
+        <h3 className="Auth-form-title">Compile routes</h3>
+        {stops != null && stops.length > 2 ? (
+          <>
             <label>From:</label>
             <Form.Select
               style={{ width: "80%" }}
@@ -136,12 +136,12 @@ function Compile() {
             ) : (
               <></>
             )}
-          </form>
-        </div>
-      ) : (
-        <Spinner />
-      )}
-    </>
+          </>
+        ) : (
+          <Spinner />
+        )}
+      </form>
+    </div>
   );
 }
 
