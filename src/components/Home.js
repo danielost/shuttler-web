@@ -17,15 +17,12 @@ const Home = () => {
           >
             <h1
               style={{ color: "white" }}
-              className="shadow-text my-5 display-3 fw-bold ls-tight px-3"
+              className="my-5 display-3 fw-bold ls-tight px-3"
             >
               <FormattedMessage id="expr" />
             </h1>
 
-            <p
-              className="shadow-text px-3"
-              style={{ fontSize: "20px", color: "white" }}
-            >
+            <p className="px-3" style={{ fontSize: "20px", color: "white" }}>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
               itaque accusantium odio, soluta, corrupti aliquam quibusdam
               tempora at cupiditate quis eum maiores libero veritatis? Dicta
@@ -53,7 +50,7 @@ const Home = () => {
               justifyContent: "space-around",
             }}
           >
-            <img src={Logo} width="300px" />
+            <img alt="Shuttler Logo" src={Logo} width="300px" />
           </MDBCol>
         </MDBRow>
       </MDBContainer>
