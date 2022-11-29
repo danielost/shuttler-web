@@ -3,6 +3,7 @@ import axios from "axios";
 import { Formik } from "formik";
 import Cookies from "js-cookie";
 import * as Yup from "yup";
+import { FormattedMessage } from "react-intl";
 
 const schema = Yup.object().shape({
   firstName: Yup.string()
@@ -26,7 +27,6 @@ const EditProfile = () => {
   const userId = JSON.parse(Cookies.get("_auth_state")).data.id;
 
   const handleEditSubmit = async (values) => {
-    // console.log("Values: ", values);
     setMessage("");
     if (values.password !== confirmedPassword) {
       setMessage("Passwords don't match");
@@ -75,7 +75,9 @@ const EditProfile = () => {
           <div className="Auth-form-container">
             <form className="Auth-form" noValidate onSubmit={handleSubmit}>
               <div className="Auth-form-content">
-                <h3 className="Auth-form-title">Update your Profile</h3>
+                <h3 className="Auth-form-title">
+                  <FormattedMessage id="updateprofile" />
+                </h3>
                 {message ? (
                   <>
                     <label>{message}</label>
@@ -85,7 +87,9 @@ const EditProfile = () => {
                 ) : (
                   <span></span>
                 )}
-                <label>First and last name</label>
+                <label>
+                  <FormattedMessage id="firstlastname" />
+                </label>
                 <div
                   style={{
                     display: "flex",
@@ -146,7 +150,9 @@ const EditProfile = () => {
                   <span></span>
                 )}
                 <div className="form-group mt-3">
-                  <label>Password</label>
+                  <label>
+                    <FormattedMessage id="password" />
+                  </label>
                   <input
                     type="password"
                     name="password"
@@ -158,7 +164,9 @@ const EditProfile = () => {
                   />
                 </div>
                 <div className="form-group mt-3">
-                  <label>Confirm password</label>
+                  <label>
+                    <FormattedMessage id="confirmpassword" />
+                  </label>
                   <input
                     type="password"
                     name="password"
@@ -179,7 +187,7 @@ const EditProfile = () => {
                 </div>
                 <div className="d-grid gap-2 mt-3">
                   <button type="submit" className="btn btn-primary">
-                    Submit
+                    <FormattedMessage id="submit" />
                   </button>
                 </div>
               </div>

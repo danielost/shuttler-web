@@ -13,6 +13,7 @@ import {
 } from "react-bootstrap";
 import { BiAddToQueue } from "react-icons/bi";
 import Button from "react-bootstrap/Button";
+import { FormattedMessage } from "react-intl";
 
 const PanelStops = () => {
   const [stops, setStops] = useState(null);
@@ -239,14 +240,16 @@ const PanelStops = () => {
         </form>
       </Modal>
       <div className="organizer-header">
-        <h3 style={{ color: "white" }}>Your routes</h3>
+        <h3 style={{ color: "white" }}>
+          <FormattedMessage id="stops" />
+        </h3>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <Button
             onClick={() => {
               setShowAddForm(true);
             }}
           >
-            Add <BiAddToQueue />
+            <FormattedMessage id="add" /> <BiAddToQueue />
           </Button>
         </div>
       </div>
@@ -259,9 +262,15 @@ const PanelStops = () => {
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Street</th>
-                <th>Number</th>
-                <th>Actions</th>
+                <th>
+                  <FormattedMessage id="street" />
+                </th>
+                <th>
+                  <FormattedMessage id="number" />
+                </th>
+                <th>
+                  <FormattedMessage id="actions" />
+                </th>
               </tr>
             </thead>
             <tbody>

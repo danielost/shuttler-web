@@ -9,6 +9,7 @@ import Table from "react-bootstrap/Table";
 import { Spinner } from "react-bootstrap";
 import ReadOnlyRow from "../tableRows/ReadOnlyRowVehicle";
 import EditableRow from "../tableRows/EditableRowVehicle";
+import { FormattedMessage } from "react-intl";
 
 const OrganizerPanelVehicles = () => {
   const [vehicles, setVehicles] = useState(null);
@@ -37,7 +38,6 @@ const OrganizerPanelVehicles = () => {
     })
       .then((response) => {
         setRoutes(response.data);
-        // console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -81,22 +81,17 @@ const OrganizerPanelVehicles = () => {
       },
     })
       .then((response) => {
-        // setMessage("Vehicle deleted");
-        // handleShow();
         console.log(response.data);
+        const newVehicles = [...vehicles];
+        const index = vehicles.findIndex(
+          (vehicle) => vehicle.vin === vehicleVin
+        );
+        newVehicles.splice(index, 1);
+        setVehicles(newVehicles);
       })
       .catch((err) => {
-        // setMessage(err);
-        // handleShow();
         console.log(err);
       });
-    const newVehicles = [...vehicles];
-
-    const index = vehicles.findIndex((vehicle) => vehicle.vin === vehicleVin);
-
-    newVehicles.splice(index, 1);
-
-    setVehicles(newVehicles);
   };
 
   const handleAddFormChange = (event) => {
@@ -189,12 +184,6 @@ const OrganizerPanelVehicles = () => {
       currentCapacity: currentVehicle.currentCapacity,
     };
 
-    // console.log("Data:");
-    // console.log("Route_id: " + editedVehicle.route);
-    // console.log("vin: " + editVehicleId);
-    // console.log("maxCapacity: " + editedVehicle.maxCapacity);
-    // console.log("currentCapacity: " + editedVehicle.currentCapacity);
-
     axios({
       url:
         "https://localhost:8443/api/v1/organizer/updateVehicle?vin=" +
@@ -234,7 +223,9 @@ const OrganizerPanelVehicles = () => {
       <Modal show={showAddForm} onHide={handleCloseAddForm}>
         <form onSubmit={handleAddFormSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Add a vehicle</Modal.Title>
+            <Modal.Title>
+              <FormattedMessage id="addvehicle" />
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <label style={{ margin: "5px" }}>VIN:</label>
@@ -245,7 +236,9 @@ const OrganizerPanelVehicles = () => {
               onChange={handleAddFormChange}
             />
             <br />
-            <label style={{ margin: "5px" }}>Maximum capacity:</label>
+            <label style={{ margin: "5px" }}>
+              <FormattedMessage id="maxcap" />:
+            </label>
             <Form.Control
               type="number"
               required="required"
@@ -256,7 +249,9 @@ const OrganizerPanelVehicles = () => {
               onChange={handleAddFormChange}
             />
             <br />
-            <label style={{ margin: "5px" }}>Route number:</label>
+            <label style={{ margin: "5px" }}>
+              <FormattedMessage id="routenum" />:
+            </label>
             {routes !== null ? (
               <Form.Control
                 as="select"
@@ -276,27 +271,29 @@ const OrganizerPanelVehicles = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseAddForm}>
-              Cancel
+              <FormattedMessage id="cancel" />
             </Button>
             <Button
               variant="primary"
               type="submit"
               onClick={handleAddFormSubmit}
             >
-              Add
+              <FormattedMessage id="add" />
             </Button>
           </Modal.Footer>
         </form>
       </Modal>
       <div className="organizer-header">
-        <h3 style={{ color: "white" }}>Your vehicles</h3>
+        <h3 style={{ color: "white" }}>
+          <FormattedMessage id="yourvehicles" />
+        </h3>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <Button
             onClick={() => {
               handleShowAddForm();
             }}
           >
-            Add <BiAddToQueue />
+            <FormattedMessage id="add"/> <BiAddToQueue />
           </Button>
         </div>
       </div>
@@ -309,10 +306,18 @@ const OrganizerPanelVehicles = () => {
             <thead>
               <tr>
                 <th>VIN</th>
-                <th>Route</th>
-                <th>Maximum capacity</th>
-                <th>Current capacity</th>
-                <th>Actions</th>
+                <th>
+                  <FormattedMessage id="route" />
+                </th>
+                <th>
+                  <FormattedMessage id="maxcap" />
+                </th>
+                <th>
+                  <FormattedMessage id="currcap" />
+                </th>
+                <th>
+                  <FormattedMessage id="actions" />
+                </th>
               </tr>
             </thead>
             <tbody>

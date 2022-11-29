@@ -3,6 +3,8 @@ import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
+import { FormattedMessage } from "react-intl";
+import Logo from "../imgs/logo.png";
 
 const Home = () => {
   return (
@@ -17,8 +19,7 @@ const Home = () => {
               style={{ color: "white" }}
               className="shadow-text my-5 display-3 fw-bold ls-tight px-3"
             >
-              Congestion <br />
-              <span className="text-primary">is no longer a problem</span>
+              <FormattedMessage id="expr" />
             </h1>
 
             <p
@@ -36,11 +37,23 @@ const Home = () => {
               JSON.parse(Cookies.get("_auth_state")).data.subscriptions
                 .length === 0) ? (
               <Button as={Link} to="/pricing" variant="primary">
-                Subscribe now for only $4.99
+                <FormattedMessage id="subnow" /> $4.99
               </Button>
             ) : (
               <></>
             )}
+          </MDBCol>
+          <MDBCol
+            md="6"
+            className="text-center text-md-start d-flex flex-column justify-content-center"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "space-around",
+            }}
+          >
+            <img src={Logo} width="300px" />
           </MDBCol>
         </MDBRow>
       </MDBContainer>

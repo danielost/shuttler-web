@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { FormattedMessage } from "react-intl";
 
 const schema = Yup.object().shape({
   firstName: Yup.string()
@@ -69,7 +70,9 @@ function Register() {
           <div className="Auth-form-container">
             <form className="Auth-form" noValidate onSubmit={handleSubmit}>
               <div className="Auth-form-content">
-                <h3 className="Auth-form-title">Sign Up</h3>
+                <h3 className="Auth-form-title">
+                  <FormattedMessage id="signup" />
+                </h3>
                 {message ? (
                   <>
                     <label>{message}</label>
@@ -79,7 +82,9 @@ function Register() {
                 ) : (
                   <span></span>
                 )}
-                <label>First and last name</label>
+                <label>
+                  <FormattedMessage id="firstlastname" />
+                </label>
                 <div
                   style={{
                     display: "flex",
@@ -136,7 +141,9 @@ function Register() {
                   <span></span>
                 )}
                 <div className="form-group mt-3">
-                  <label>Username</label>
+                  <label>
+                    <FormattedMessage id="username" />
+                  </label>
                   <input
                     type="username"
                     onChange={handleChange}
@@ -155,7 +162,9 @@ function Register() {
                   )}
                 </div>
                 <div className="form-group mt-3">
-                  <label>Password</label>
+                  <label>
+                    <FormattedMessage id="password" />
+                  </label>
                   <input
                     type="password"
                     name="password"
@@ -175,11 +184,14 @@ function Register() {
                 </div>
                 <div className="d-grid gap-2 mt-3">
                   <button type="submit" className="btn btn-primary">
-                    Submit
+                    <FormattedMessage id="submit" />
                   </button>
                 </div>
                 <p className="forgot-password text-right mt-2">
-                  Already have an account? <Link to="/signin">Sign in</Link>
+                  <FormattedMessage id="alreadyhaveaccount" />{" "}
+                  <Link to="/signin">
+                    <FormattedMessage id="signinhere" />
+                  </Link>
                 </p>
               </div>
             </form>

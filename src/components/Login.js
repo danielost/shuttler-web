@@ -5,6 +5,7 @@ import { useSignIn } from "react-auth-kit";
 import axios from "axios";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { FormattedMessage } from "react-intl";
 
 const schema = Yup.object().shape({
   username: Yup.string()
@@ -35,15 +36,14 @@ function Login() {
         token: response.data.token,
         expiresIn: 60,
         tokenType: "Bearer",
-        authState: { "data":response.data },
+        authState: { data: response.data },
       });
 
       navigate("/");
       window.location.reload(false);
     } catch (err) {
       setError("Bad credentials");
-
-      console.log("Error: ", err);
+      console.log(err);
     }
   };
 
@@ -67,15 +67,19 @@ function Login() {
           <div className="Auth-form-container">
             <form className="Auth-form" noValidate onSubmit={handleSubmit}>
               <div className="Auth-form-content">
-                <h3 className="Auth-form-title">Sign In</h3>
+                <h3 className="Auth-form-title">
+                  <FormattedMessage id="signin" />
+                </h3>
                 {error ? (
                   <label style={{ color: "red" }}>{error}</label>
                 ) : (
-                  <span></span>
+                  <></>
                 )}
 
                 <div className="form-group mt-3">
-                  <label>Username</label>
+                  <label>
+                    <FormattedMessage id="username" />
+                  </label>
                   <input
                     type="username"
                     onChange={handleChange}
@@ -94,7 +98,9 @@ function Login() {
                   )}
                 </div>
                 <div className="form-group mt-3">
-                  <label>Password</label>
+                  <label>
+                    <FormattedMessage id="password" />
+                  </label>
                   <input
                     type="password"
                     name="password"
@@ -114,11 +120,14 @@ function Login() {
                 </div>
                 <div className="d-grid gap-2 mt-3">
                   <button type="submit" className="btn btn-primary">
-                    Submit
+                    <FormattedMessage id="submit" />
                   </button>
                 </div>
                 <p className="forgot-password text-right mt-2">
-                  Don't have an account? <Link to="/signup">Register here</Link>
+                  <FormattedMessage id="donthaveaccount" />{" "}
+                  <Link to="/signup">
+                    <FormattedMessage id="registerhere" />
+                  </Link>
                 </p>
               </div>
             </form>

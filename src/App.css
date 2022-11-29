@@ -4,7 +4,8 @@
 }
 
 body {
-  background-image: url("./imgs/home2.jpg");
+  background-color: #282A3A !important;
+  /* background-image: url("./imgs/home2.jpg"); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

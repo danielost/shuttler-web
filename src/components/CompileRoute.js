@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Spinner } from "react-bootstrap";
 import RoutesTableAll from "./RoutesTableAll";
+import { FormattedMessage } from "react-intl";
 
 function Compile() {
   const [routes, setRoutes] = useState(null);
@@ -47,7 +48,7 @@ function Compile() {
     console.log("To: " + toId);
 
     if (fromId === toId) {
-      setError("Stops can't be the same");
+      setError(<FormattedMessage id="samestops" />);
     } else {
       axios({
         url:
@@ -64,7 +65,7 @@ function Compile() {
           setRoutes(response.data);
           console.log(response.data);
           if (response.data.length === 0) {
-            setError("No routes coursing through these stops, sorry.");
+            setError(<FormattedMessage id="noroutescoursing" />);
           }
         })
         .catch((err) => {
@@ -76,10 +77,14 @@ function Compile() {
   return (
     <div className="compile-form-container">
       <form className="compile-form" style={{ alignItems: "center" }}>
-        <h3 className="Auth-form-title">Compile routes</h3>
+        <h3 className="Auth-form-title">
+          <FormattedMessage id="compileroutes" />
+        </h3>
         {stops != null && stops.length > 2 ? (
           <>
-            <label>From:</label>
+            <label>
+              <FormattedMessage id="from" />:
+            </label>
             <Form.Select
               style={{ width: "80%" }}
               defaultValue={stops[0].id}
@@ -94,7 +99,9 @@ function Compile() {
               })}
             </Form.Select>
             <br />
-            <label>To:</label>
+            <label>
+              <FormattedMessage id="to" />:
+            </label>
             <Form.Select
               defaultValue={stops[1].id}
               style={{ width: "80%" }}
@@ -123,7 +130,7 @@ function Compile() {
                 handleCompileSubmit();
               }}
             >
-              Compile
+              <FormattedMessage id="compile" />
             </Button>
             {routes !== null ? (
               <>

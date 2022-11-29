@@ -11,18 +11,17 @@ import Modal from "react-bootstrap/Modal";
 import { BiAddToQueue } from "react-icons/bi";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
+import { FormattedMessage } from "react-intl";
 
 const OrganizerPanelRoutes = () => {
   const [routes, setRoutes] = useState(null);
   const [show, setShow] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
-  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseAddForm = () => setShowAddForm(false);
   const handleShowAddForm = () => setShowAddForm(true);
   const allowedTypes = ["bus", "trolleybus", "tram"];
   const [stops, setStops] = useState(null);
-  const [showToast, setShowToast] = useState(true);
 
   const [addFormData, setAddFormData] = useState({
     number: "",
@@ -34,7 +33,7 @@ const OrganizerPanelRoutes = () => {
     type: "",
   });
 
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(<FormattedMessage id="keepinmind" />);
   const [currNumber, setCurrNumber] = useState("");
   const [editRouteId, setEditRouteId] = useState(null);
 
@@ -66,17 +65,6 @@ const OrganizerPanelRoutes = () => {
     console.log("Number: " + editedRoute.number);
 
     const index = allowedTypes.indexOf(editedRoute.type);
-    if (index === -1) {
-      setMessage(
-        "Error: " +
-          editedRoute.type +
-          " - bad type: allowed types are {" +
-          allowedTypes +
-          "}"
-      );
-      handleShow();
-      return 0;
-    }
 
     axios({
       url:
@@ -91,7 +79,7 @@ const OrganizerPanelRoutes = () => {
       },
     })
       .then((response) => {
-        setMessage("Route updated");
+        setMessage(<FormattedMessage id="routeupdated" />);
         handleShow();
         console.log(response.data);
         const newRoutes = [...routes];
@@ -105,7 +93,7 @@ const OrganizerPanelRoutes = () => {
         setEditRouteId(null);
       })
       .catch((err) => {
-        setMessage("Number is already taken");
+        setMessage(<FormattedMessage id="numbertaken" />);
         handleShow();
       });
   };
@@ -147,7 +135,7 @@ const OrganizerPanelRoutes = () => {
           },
         })
           .then((responseSec) => {
-            setMessage("Route added");
+            setMessage(<FormattedMessage id="routeadded" />);
             handleShow();
             console.log(responseSec.data);
 
@@ -193,7 +181,7 @@ const OrganizerPanelRoutes = () => {
       },
     })
       .then((response) => {
-        setMessage("Route deleted");
+        setMessage(<FormattedMessage id="routedeleted" />);
         handleShow();
         console.log(response.data);
       })
@@ -212,7 +200,7 @@ const OrganizerPanelRoutes = () => {
   };
 
   useEffect(() => {
-    setShowToast(true);
+    setShow(true);
 
     axios({
       url: "https://localhost:8443/api/v1/organizer/getRoutes/" + userId,
@@ -241,7 +229,6 @@ const OrganizerPanelRoutes = () => {
         stops.sort(function(a, b) {
           return a.street > b.street;
         });
-        // console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -251,7 +238,7 @@ const OrganizerPanelRoutes = () => {
   return (
     <>
       <ToastContainer className="p-3" position="bottom-end">
-        <Toast onClose={()=>setShowToast(false)} show={showToast} delay={7000} autohide>
+        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
           <Toast.Header>
             <img
               src="holder.js/20x20?text=%20"
@@ -261,16 +248,20 @@ const OrganizerPanelRoutes = () => {
             <strong className="me-auto">Shuttler</strong>
             <small>Important!</small>
           </Toast.Header>
-          <Toast.Body>Keep in mind, that changes to stops apply immediately</Toast.Body>
+          <Toast.Body>{message}</Toast.Body>
         </Toast>
       </ToastContainer>
       <Modal show={showAddForm} onHide={handleCloseAddForm}>
         <form onSubmit={handleAddFormSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Add a route</Modal.Title>
+            <Modal.Title>
+              <FormattedMessage id="Add a route" />
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <label style={{ margin: "5px" }}>Type:</label>
+            <label style={{ margin: "5px" }}>
+              <FormattedMessage id="type" />:
+            </label>
             <Form.Control
               as="select"
               required="required"
@@ -283,9 +274,13 @@ const OrganizerPanelRoutes = () => {
               <option value="tram">tram</option>
             </Form.Control>
             <br />
-            <label style={{ margin: "5px" }}>Number:</label>
+            <label style={{ margin: "5px" }}>
+              <FormattedMessage id="number" />:
+            </label>
             <Form.Control
               type="number"
+              min="1"
+              max="999"
               required="required"
               placeholder="Enter the number"
               name="number"
@@ -294,31 +289,22 @@ const OrganizerPanelRoutes = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseAddForm}>
-              Cancel
+              <FormattedMessage id="cancel" />
             </Button>
             <Button
               variant="primary"
               type="submit"
               onClick={handleCloseAddForm}
             >
-              Add
+              <FormattedMessage id="add" />
             </Button>
           </Modal.Footer>
         </form>
       </Modal>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Operation result</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{message}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Got it
-          </Button>
-        </Modal.Footer>
-      </Modal>
       <div className="organizer-header">
-        <h3 style={{ color: "white" }}>Your routes</h3>
+        <h3 style={{ color: "white" }}>
+          <FormattedMessage id="yourroutes" />
+        </h3>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <Form.Control
             type="search"
@@ -336,7 +322,7 @@ const OrganizerPanelRoutes = () => {
               handleShowAddForm();
             }}
           >
-            Add <BiAddToQueue />
+            <FormattedMessage id="add" /> <BiAddToQueue />
           </Button>
         </div>
       </div>
@@ -349,10 +335,18 @@ const OrganizerPanelRoutes = () => {
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Type</th>
-                <th>Number</th>
-                <th>Stops</th>
-                <th>Actions</th>
+                <th>
+                  <FormattedMessage id="type" />
+                </th>
+                <th>
+                  <FormattedMessage id="number" />
+                </th>
+                <th>
+                  <FormattedMessage id="stops" />
+                </th>
+                <th>
+                  <FormattedMessage id="actions" />
+                </th>
               </tr>
             </thead>
             <tbody>

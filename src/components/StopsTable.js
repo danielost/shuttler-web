@@ -1,5 +1,6 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
+import { FormattedMessage } from "react-intl";
 
 const StopsTable = ({ stops }) => {
   return (
@@ -7,8 +8,12 @@ const StopsTable = ({ stops }) => {
       <Table striped>
         <thead>
           <tr>
-            <th>Street</th>
-            <th>Number</th>
+            <th>
+              <FormattedMessage id="street" />
+            </th>
+            <th>
+              <FormattedMessage id="number" />
+            </th>
           </tr>
         </thead>
         <tbody>

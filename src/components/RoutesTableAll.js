@@ -6,6 +6,7 @@ import Accordion from "react-bootstrap/Accordion";
 import StopsTable from "./StopsTable";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { FormattedMessage } from "react-intl";
 
 const RoutesTable = ({ routes }) => {
   const [show, setShow] = useState(false);
@@ -14,7 +15,7 @@ const RoutesTable = ({ routes }) => {
   const [activeRouteSaved, setActiveRouteSaved] = useState(false);
 
   const userSubscriptions = JSON.parse(Cookies.get("_auth_state")).data
-  .subscriptions;
+    .subscriptions;
   const userId = JSON.parse(Cookies.get("_auth_state")).data.id;
 
   const handleClose = () => setShow(false);
@@ -58,7 +59,6 @@ const RoutesTable = ({ routes }) => {
       .then((response) => {
         setActiveRouteSaved(true);
         handleClose();
-        // console.log("Route saved: " + response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -80,7 +80,6 @@ const RoutesTable = ({ routes }) => {
       .then((response) => {
         setActiveRouteSaved(false);
         handleClose();
-        // console.log("Route deleted: " + response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -108,27 +107,28 @@ const RoutesTable = ({ routes }) => {
       <Modal dialogClassName="modal-width" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1)}{" "}
-            {activeRoute.number}{" "}
+            <FormattedMessage id={vehicleType} /> {activeRoute.number}{" "}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <span style={estimateCongestion(activeRoute.congestion)}>
             {(() => {
               if (Number(activeRoute.congestion) < 30) {
-                return <>Low congestion</>;
+                return <FormattedMessage id="lowcong" />;
               }
               if (Number(activeRoute.congestion) < 60) {
-                return <>Moderate congestion</>;
+                return <FormattedMessage id="modcong" />;
               }
-              return <>High congestion</>;
+              return <FormattedMessage id="highcong" />;
             })()}
           </span>
           <br />
           <br />
           <Accordion>
             <Accordion.Item eventKey="0">
-              <Accordion.Header>Stops</Accordion.Header>
+              <Accordion.Header>
+                <FormattedMessage id="stops" />
+              </Accordion.Header>
               <Accordion.Body style={{ padding: "0" }}>
                 <StopsTable stops={activeRoute.stops} />
               </Accordion.Body>
@@ -143,7 +143,7 @@ const RoutesTable = ({ routes }) => {
                 handleRouteDelete();
               }}
             >
-              Remove this route from your profile
+              <FormattedMessage id="unsavestop" />
             </Button>
           ) : (
             <Button
@@ -152,11 +152,11 @@ const RoutesTable = ({ routes }) => {
                 handleRouteSave();
               }}
             >
-              Save this route to your profile
+              <FormattedMessage id="savestop" />
             </Button>
           )}
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            <FormattedMessage id="close" />
           </Button>
         </Modal.Footer>
       </Modal>
@@ -164,9 +164,19 @@ const RoutesTable = ({ routes }) => {
       <Table striped>
         <thead>
           <tr>
-            <th>Number</th>
-            {userSubscriptions.length !== 0 ? <th>Congestion</th> : <></>}
-            <th>Details</th>
+            <th>
+              <FormattedMessage id="number" />
+            </th>
+            {userSubscriptions.length !== 0 ? (
+              <th>
+                <FormattedMessage id="congestion" />
+              </th>
+            ) : (
+              <></>
+            )}
+            <th>
+              <FormattedMessage id="details" />
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -178,12 +188,12 @@ const RoutesTable = ({ routes }) => {
                     {currRoute.number}
                   </td>
                   {userSubscriptions.length !== 0 ? (
-                      <td style={estimateCongestion(currRoute.congestion)}>
-                        {currRoute.congestion.toString().slice(0, 5)}%
-                      </td>
-                    ) : (
-                      <></>
-                    )}
+                    <td style={estimateCongestion(currRoute.congestion)}>
+                      {currRoute.congestion.toString().slice(0, 5)}%
+                    </td>
+                  ) : (
+                    <></>
+                  )}
                   <td style={{ verticalAlign: "middle" }}>
                     <Button
                       variant="primary"
@@ -191,7 +201,7 @@ const RoutesTable = ({ routes }) => {
                         openModalWithItem(currRoute);
                       }}
                     >
-                      More info
+                      <FormattedMessage id="moreinfo" />
                     </Button>
                   </td>
                 </tr>

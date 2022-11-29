@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import { useSignOut } from "react-auth-kit";
+import { FormattedMessage } from "react-intl";
 
 const Pricing = () => {
   const [showSub, setShowSub] = useState(false);
@@ -57,14 +58,16 @@ const Pricing = () => {
     <>
       <Modal show={showSub} onHide={handleCloseSub}>
         <Modal.Header closeButton>
-          <Modal.Title>Woohoo, you're now a premium member!</Modal.Title>
+          <Modal.Title>
+            <FormattedMessage id="pricingmodalheader" />
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Please re-login to your account to activate your subscription
+          <FormattedMessage id="pricingmodalbody" />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseSub}>
-            I'll do it later
+            <FormattedMessage id="pricingmodalcancel" />
           </Button>
           <Button
             variant="primary"
@@ -72,7 +75,7 @@ const Pricing = () => {
               signOut();
             }}
           >
-            Re-login now
+            <FormattedMessage id="pricingmodalok" />
           </Button>
         </Modal.Footer>
       </Modal>
@@ -83,10 +86,12 @@ const Pricing = () => {
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Sorry to see you leaving</Modal.Title>
+          <Modal.Title>
+            <FormattedMessage id="unsubmodalheader" />
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          You have to re-login to your account to deactivate your subscription
+          <FormattedMessage id="unsubmodalbody" />
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -95,7 +100,7 @@ const Pricing = () => {
               signOut();
             }}
           >
-            Logout
+            <FormattedMessage id="logout" />
           </Button>
         </Modal.Footer>
       </Modal>
@@ -103,10 +108,11 @@ const Pricing = () => {
         <Card style={{ width: "18rem" }}>
           <Card.Img variant="top" src={jam} />
           <Card.Body>
-            <Card.Title>Premium membership</Card.Title>
+            <Card.Title>
+              <FormattedMessage id="premmembership" />
+            </Card.Title>
             <Card.Text>
-              Get an ability to see routes' congestion and find optimal routes
-              anytime
+              <FormattedMessage id="premdesc" />
             </Card.Text>
             {userSubscriptions.length !== 0 ? (
               <Button
@@ -115,7 +121,7 @@ const Pricing = () => {
                   handleSubscriptionDeleting();
                 }}
               >
-                Cancel subscription
+                <FormattedMessage id="cancelsub" />
               </Button>
             ) : (
               <Button
@@ -124,7 +130,7 @@ const Pricing = () => {
                   handleSubscriptionBuying();
                 }}
               >
-                Buy now for $4.99
+                <FormattedMessage id="buysub" /> $4.99
               </Button>
             )}
           </Card.Body>
@@ -132,12 +138,15 @@ const Pricing = () => {
         <Card style={{ width: "18rem" }}>
           <Card.Img variant="top" src={org} />
           <Card.Body>
-            <Card.Title>Organizer membership</Card.Title>
+            <Card.Title>
+              <FormattedMessage id="orgmembership" />
+            </Card.Title>
             <Card.Text>
-              Become an organizer: create routes, vehicles and attract more
-              clients to your transport organization
+              <FormattedMessage id="orgdesc" />{" "}
             </Card.Text>
-            <Button variant="primary">Buy now for $24.99</Button>
+            <Button variant="primary">
+              <FormattedMessage id="buysub" /> $24.99
+            </Button>
           </Card.Body>
         </Card>
       </div>

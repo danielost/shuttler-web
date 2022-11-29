@@ -19,6 +19,7 @@ import OrganizerPanelVehicles from "./controlPanels/OrganizerPanelVehicles";
 import NotFoundPage from "./NotFound";
 import PanelUsers from "./controlPanels/AdminPanelUsers";
 import PanelStops from "./controlPanels/AdminPanelStops";
+import { FormattedMessage } from "react-intl";
 
 const NavbarComp = () => {
   const [name, setName] = useState("");
@@ -44,36 +45,38 @@ const NavbarComp = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link as={Link} to={"/"}>
-                Home
+                <FormattedMessage id="home" />
               </Nav.Link>
               <Nav.Link as={Link} to={"/pricing"}>
-                Pricing
+                <FormattedMessage id="pricing" />
               </Nav.Link>
-              <NavDropdown title="Routes" id="collasible-nav-dropdown">
+              <NavDropdown
+                title={<FormattedMessage id="routes" />}
+                id="collasible-nav-dropdown"
+              >
                 <NavDropdown.Item as={Link} to={"/compile"}>
-                  Compile
+                  <FormattedMessage id="compile" />
                 </NavDropdown.Item>
                 <NavDropdown.Item as={Link} to={"/favorites"}>
-                  Favorites
+                  <FormattedMessage id="favorites" />
                 </NavDropdown.Item>
-
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Link} to={"/allRoutes"}>
-                  See all
+                  <FormattedMessage id="seeall" />
                 </NavDropdown.Item>
               </NavDropdown>
               {Cookies.get("_auth") != null &&
               roles.find((role) => role.name === "ROLE_ORGANIZER") !==
                 undefined ? (
                 <NavDropdown
-                  title="Organizer Panel"
+                  title={<FormattedMessage id="orgpanel" />}
                   id="collasible-nav-dropdown"
                 >
                   <NavDropdown.Item as={Link} to={"/manageRoutes"}>
-                    Manage routes
+                    <FormattedMessage id="mngroutes" />
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to={"/manageVehicles"}>
-                    Manage vehicles
+                    <FormattedMessage id="mngvehicles" />
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
@@ -81,15 +84,18 @@ const NavbarComp = () => {
               )}
               {Cookies.get("_auth") != null &&
               roles.find((role) => role.name === "ROLE_ADMIN") !== undefined ? (
-                <NavDropdown title="Admin Panel" id="collasible-nav-dropdown">
+                <NavDropdown
+                  title={<FormattedMessage id="admpanel" />}
+                  id="collasible-nav-dropdown"
+                >
                   <NavDropdown.Item as={Link} to={"/manageUsers"}>
-                    Manage users
+                    <FormattedMessage id="mngusers" />
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to={"/manageStops"}>
-                    Manage stops
+                    <FormattedMessage id="mngstops" />
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to={"/#"}>
-                    Manage database
+                    <FormattedMessage id="mngdatabase" />
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
@@ -100,7 +106,7 @@ const NavbarComp = () => {
               {Cookies.get("_auth") != null ? (
                 <>
                   <Nav.Link as={Link} to={"/profile"}>
-                    Logged in as{" "}
+                    <FormattedMessage id="loggedinas" />{" "}
                     <span style={{ color: "#3B71CA" }}>{name}</span>
                   </Nav.Link>
                   <Nav.Link
@@ -112,20 +118,20 @@ const NavbarComp = () => {
                     as={Link}
                     to={"/"}
                   >
-                    Logout
+                    <FormattedMessage id="logout" />
                   </Nav.Link>
                 </>
               ) : (
                 <>
                   <Nav.Link as={Link} to={"/signup"}>
-                    Sign up
+                    <FormattedMessage id="signup" />
                   </Nav.Link>
                   <Nav.Link
                     className="btn btn-primary"
                     as={Link}
                     to={"/signin"}
                   >
-                    Sign in
+                    <FormattedMessage id="signin" />
                   </Nav.Link>
                 </>
               )}

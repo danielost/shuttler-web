@@ -8,6 +8,7 @@ import Table from "react-bootstrap/Table";
 import { Spinner } from "react-bootstrap";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
+import { FormattedMessage } from "react-intl";
 
 const PanelUsers = () => {
   const [users, setUsers] = useState(null);
@@ -71,7 +72,13 @@ const PanelUsers = () => {
         console.log(response.data);
         const newUsers = [...users];
         const index = users.findIndex((user) => user.id === userId);
-        setMessage("User " + users[index].id + " " + users[index].username + " has been deleted")
+        setMessage(
+          "User " +
+            users[index].id +
+            " " +
+            users[index].username +
+            " has been deleted"
+        );
         newUsers.splice(index, 1);
         setUsers(newUsers);
         setShowToast(true);
@@ -120,7 +127,9 @@ const PanelUsers = () => {
         </Toast>
       </ToastContainer>
       <div className="organizer-header">
-        <h3 style={{ color: "white" }}>Users</h3>
+        <h3 style={{ color: "white" }}>
+          <FormattedMessage id="users" />
+        </h3>
       </div>
       {users !== null ? (
         <form style={{ margin: "0px 14% 150px 14%" }}>
@@ -128,12 +137,24 @@ const PanelUsers = () => {
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Username</th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Subscribed</th>
-                <th>Roles</th>
-                <th>Actions</th>
+                <th>
+                  <FormattedMessage id="username" />
+                </th>
+                <th>
+                  <FormattedMessage id="firstname" />
+                </th>
+                <th>
+                  <FormattedMessage id="lastname" />
+                </th>
+                <th>
+                  <FormattedMessage id="subscribed" />
+                </th>
+                <th>
+                  <FormattedMessage id="roles" />
+                </th>
+                <th>
+                  <FormattedMessage id="actions" />
+                </th>
               </tr>
             </thead>
             <tbody>

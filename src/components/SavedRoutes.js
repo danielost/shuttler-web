@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import RoutesTableAll from "./RoutesTableAll";
 import { Link } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
 
 const SavedRoutes = () => {
   const [routes, setRoutes] = useState([]);
@@ -18,7 +19,6 @@ const SavedRoutes = () => {
     })
       .then((response) => {
         setRoutes(response.data);
-        // console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -30,18 +30,19 @@ const SavedRoutes = () => {
       <div className="route-container-items">
         {routes.length !== 0 ? (
           <>
-            <h3 className="Auth-form-title">Favorite routes</h3>
+            <h3 className="Auth-form-title">
+              <FormattedMessage id="favorites" />
+            </h3>
             <RoutesTableAll routes={routes} />
           </>
         ) : (
           <label
             style={{ fontSize: "20px", margin: "100px", textDecoration: "0" }}
           >
-            No favorite routes, go to{" "}
+            <FormattedMessage id="nofavroutes" />{" "}
             <Link style={{ textDecoration: "none" }} to="/allRoutes">
-              all routes
+              <FormattedMessage id="allroutes" />
             </Link>{" "}
-            to save some.
           </label>
         )}
       </div>
