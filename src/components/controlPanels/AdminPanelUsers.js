@@ -147,7 +147,7 @@ const PanelUsers = () => {
                     <td>{user.subscriptions.length === 0 ? "No" : "Yes"}</td>
                     <td>
                       {user.roles.findIndex(
-                        (role) => role.name == "ROLE_ADMIN"
+                        (role) => role.name === "ROLE_ADMIN"
                       ) === -1 ? (
                         <Form.Check
                           name="2"
@@ -167,7 +167,7 @@ const PanelUsers = () => {
                         />
                       )}
                       {user.roles.findIndex(
-                        (role) => role.name == "ROLE_ORGANIZER"
+                        (role) => role.name === "ROLE_ORGANIZER"
                       ) === -1 ? (
                         <Form.Check
                           name="3"
@@ -187,7 +187,7 @@ const PanelUsers = () => {
                         />
                       )}
                       {user.roles.findIndex(
-                        (role) => role.name == "ROLE_CONTROLLER"
+                        (role) => role.name === "ROLE_CONTROLLER"
                       ) === -1 ? (
                         <Form.Check
                           name="4"
